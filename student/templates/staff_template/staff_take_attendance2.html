@@ -1,0 +1,176 @@
+{% extends 'staff_template/base_template.html' %}
+{% block page_title %}
+Take Attendance
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+
+          <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title"> Take Attandence </h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+
+                <div class="card-body">
+                    <div class="form-group">
+                    <label>subject </label>
+                    <select class="form-control" name="subject" id="subject">
+                        {% for subject in subjects %}
+                          <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Session Year</label>
+                    <select class="form-control" name="session_year" id="session_year">
+                        {% for session_year in session_years %}
+                          <option value="{{ session_year.id }}">{{ session_year.session_stat_year }} {{ session_year.session_end_year }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                   <div class="form-group">
+                      {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary btn-block" id="fetch_student">Take Attandence</button>
+                </div>
+                <div>
+                 <div id="student_data" class="card-footer">
+
+                </div>
+            </div>
+            <!-- /.card -->
+
+
+
+          </div>
+          </div>
+</div>
+      </div>
+
+    <div class="card card-primary">
+                 <div id="student_dataa" class="card-footer container-fluid row" style="display: initial;">
+                     <div class="form-check"></div><label>Attendance Date :</label>
+                     <input type="date" class="form-control" id="attandance_date" value="{{placement.date|date:'Y-m-d' }}">
+                     <div class="col-sm-12">
+                      <!-- checkbox -->
+                      <div class="form-group lool">
+
+                        <button id="save_attendance" class="btn btn-success btn-block"> Save Attendance</button>
+                      </div>
+
+</div>
+
+ </div></div>
+                 </div>
+            </div>
+    </section>
+    <!-- /.content -->
+{% endblock main_content %}
+
+{% block custom_js %}
+    <script>
+
+        $(document).ready(function () {
+            console.log("ready");
+            $("#fetch_student").click(function () {
+                var subject=$("#subject").val()
+                var session_year=$("#session_year").val()
+                var datee = $("#date").val()
+                $("#student_data").css("display","initial")
+
+                $.ajax({
+                    url:'{% url 'get_student' %}',
+                    type:'POST',
+                    data:{subject:subject,session_year:session_year},
+
+                    })
+                .done(function(response){
+                    console.log(response)
+                    var json_data=JSON.parse(response);
+                    console.log(json_data)
+                    var div_data="<div class='form-group '> ";
+                    var t = 1;
+
+                    for (key in json_data)
+                    {
+                        div_data+="<div class='custom-control custom-checkbox data2'><input class='custom-control-input' type='checkbox' checked='checked' name='student_data[]' value='"+json_data[key]['id']+"' id='customCheckbox"+t+"'><label for='customCheckbox"+t+"' class='custom-control-label'>"+json_data[key]['name']+"</label></div>";
+                    t=t+1;
+                    }
+                    div_data += "</div></div>"
+                    div_data += "<div class='form-group'>"
+                    div_data += "<button id='save_attendance' class='btn btn-success btn-block'> Save Attendance</button>"
+                    div_data += "</div></div></div>"
+                    $(".lool").html(div_data);
+
+
+                })
+                .fail(function () {
+                    alert("errer in save data student")
+
+                })
+
+                $(document).on("click","#save_attendance",function () {
+
+                    console.log("save")
+                    var student_data=$("input[name='student_data[]']").map(function () {
+                    if ($(this).is(":checked")){
+                        return {"id":$(this).val(),"status":1};
+                        }else {
+                        return {"id":$(this).val(),"status":0};
+                    }
+                    }).get()
+                    var attandance_date=$("#attandance_date").val();
+                    var subject_id=$("#subject").val();
+                    var session_year_id=$("#session_year").val();
+                    student_data = JSON.stringify(student_data)
+
+                    console.log(subject_id);
+                    console.log(student_data);
+                    console.log(attandance_date);
+
+                    $.ajax({
+
+                    url:'{% url 'save_attandance_data' %}',
+                    type:'POST',
+                    data:{student_ids:student_data,attandance_date:attandance_date,subject_id:subject_id,session_year_id:session_year_id},
+
+                    })
+
+                .done(function(response){
+
+                    alert("succes save data student")
+
+                })
+                .fail(function () {
+                    alert("errer in save data student")
+
+                })
+
+                })
+
+            })
+        })
+
+    </script>
+{% endblock custom_js %}
+
