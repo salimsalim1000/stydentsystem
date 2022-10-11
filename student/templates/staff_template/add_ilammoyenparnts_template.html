@@ -1,0 +1,140 @@
+{% extends 'staff_template/base_template.html' %}
+{% block page_title %}
+الاعلام
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">الحصص الاعلامية</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="#" method="post">
+                  {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+
+                    <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+                     {% for comp in companys %}
+                   <tr style="text-align: center;font-size: x-large; background-color: rgba(255,228,92,0.71)" >
+
+                <td colspan="6" >{{ comp.name }}</td>
+                </tr>
+                  </thead>
+    <tbody>
+
+
+
+                        <tr style="background-color: #bdbbbb">
+                              <th scope="col">الاجراء</th>
+                             <th scope="col">التاريخ</th>
+                              <th scope="col">عدد الحاضرون</th>
+                              <th scope="col">اجمالي الاستدعاءات</th>
+                              <th scope="col">عدد المسجلين</th>
+                              <th scope="col">المستوى</th>
+                         </tr>
+
+                  {% for foor in degraylist %}
+
+                         {% if foor.company_id|cut:" " == comp.id|cut:" " %}
+                            <tr>
+                            <td colspan="1" ><button style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-info" disabled data-degrycomp="{{ foor.id }}" id="save-{{ foor.id }}">اضافة</button></td>
+                             <td colspan="1" ><input class="date" id="date-{{ foor.id }}" data-date="{{ foor.id }}" style="width: 100%;box-sizing: border-box;" type="date"></td>
+                            <td class="inputtest" id="come-{{ foor.id }}" data-come="{{ foor.id }}" colspan="1" contenteditable ></td>
+                            <td class="inputtest" id="ist-{{ foor.id }}" data-ist="{{ foor.id }}" colspan="1" contenteditable ></td>
+                            <td colspan="1">{{ foor.nomberetud  }}</td>
+                            <td colspan="1">{{ foor.name  }}</td>
+                              </tr>
+                        {% endif %}
+
+                      {% endfor %}
+
+
+
+  </tbody>
+                       {% endfor %}
+</table>
+
+
+
+                  </div>
+                   <div class="form-group">
+                      {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+
+              </form>
+            </div>
+            <!-- /.card -->
+
+
+
+          </div>
+          </div>
+      </div>
+    </section>
+    <!-- /.content -->
+{% endblock main_content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+
+        $(".date").change(function () {
+			var testid = $(this).data('date')
+            var input = $(`#come-${testid}`).text()
+			var saveBtn = $(`#save-${testid}`)
+
+			    saveBtn.prop('disabled', false)
+
+
+		})
+
+
+        $(".btn-info").click(function (event) {
+            event.preventDefault();
+            var iddegrycomp = $(this).data('degrycomp')
+
+            var ist = $(`#ist-${iddegrycomp}`).text()
+            var come = $(`#come-${iddegrycomp}`).text()
+            var date = $(`#date-${iddegrycomp}`).val()
+
+            $.ajax({
+                url:'{% url 'save_ilam_parentsmoy' %}',
+                type:'POST',
+                data:{ iddegrycomp:iddegrycomp, ist:ist, come:come, date:date },
+            })
+            .done(function(response){
+
+                alert("تم الاضافة")
+                $(`#save-${iddegrycomp}`).prop('disabled', true)
+            })
+            .fail(function(){
+                alert("خطأ في الاضافة")
+            });
+
+        })
+
+
+    })
+</script>
+{% endblock custom_js %}

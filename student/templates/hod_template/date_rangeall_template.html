@@ -1,0 +1,725 @@
+{% extends 'hod_template/base_template.html' %}
+{% block page_title %}
+تجميع النشاطات
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">تجميع النشاطات</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="/date_range_full_get" method="get">
+
+                <div class="card-body">
+                  <div class="form-group">
+                      <div class="row">
+    <div class="col-md-5 ">
+       <label style="text-align: center; display: block;"> الى </label>
+       <input class="form-control col-md-12" type="date" name="primary2" id="primary2" value="{{primary2|date:'Y-m-d'}}" >
+    </div>
+    <div class="col-md-5">
+        <label style="text-align: center; display: block;"> من </label>
+        <input class="form-control col-md-12" type="date" name="primary1" id="primary1" value="{{primary1|date:'Y-m-d'}}">
+    </div>
+      <div class="col-md-2" >
+
+          <button type="submit" style="
+    margin: auto;
+    width: 100%;
+    padding: 1px;
+    text-align: center;
+    margin-top: 30px;" class="form-control col-md-12" name="primary">بحث </button>
+      </div>
+</div>
+
+
+                  </div>
+
+
+                </div>
+                <!-- /.card-body -->
+
+              </form>
+            </div>
+            <!-- /.card -->
+
+
+
+          </div>
+          </div>
+      </div>
+    </section>
+    <!-- /.content -->
+
+ <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">الاعلام</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body" style="display: block;">
+            <div class="row">
+        <!-- /.card-header -->
+
+                    <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+    <tbody>
+
+
+                        <tr style="background-color: #bdbbbb">
+
+                              <th scope="col">الحصص المقدمة لفوج</th>
+                              <th scope="col">عدد الافواج</th>
+                              <th scope="col">المستوى</th>
+                             <th scope="col">المؤسسة</th>
+                            <th scope="col">المستشار المكلف</th>
+                         </tr>
+
+
+                    {% for foor in listmediasec %}
+
+
+                            <tr>
+
+
+                            <td class="inputtest"  >{{ foor.total }}</td>
+                            <td colspan="1">{{ foor.degraycomany__nomberexist }}</td>
+                            <td colspan="1">{{ foor.degraycomany__name  }} - {{ foor.degraycomany__spesial__name  }}</td>
+                            <td colspan="1">{{ foor.degraycomany__company__name  }}</td>
+                            <td colspan="1">{{ foor.degraycomany__company__withprimary__username  }}</td>
+                              </tr>
+
+
+                      {% endfor %}
+
+
+
+
+                  {% for mediamo in listmediamoy  %}
+
+
+                            <tr>
+
+                            <td >{{ mediamo.total }}</td>
+                            <td colspan="1">{{ mediamo.withclass__nomberexist }}</td>
+                            <td colspan="1">{{ mediamo.withclass__withdegrey__name  }}</td>
+                            <td colspan="1">{{ mediamo.withclass__company__name  }}</td>
+                            <td colspan="1">{{ mediamo.withclass__company__withuser__username  }}</td>
+                              </tr>
+
+                      {% endfor %}
+
+                 {% for mediapr in listmediapre %}
+
+
+                            <tr>
+
+                            <td >{{ mediapr.total }}</td>
+                            <td colspan="1">{{ mediapr.withclass__nomberexist }}</td>
+                            <td colspan="1">{{ mediapr.withclass__withdegrey__name  }}</td>
+                            <td colspan="1">{{ mediapr.withclass__company__name  }}</td>
+                            <td colspan="1">{{ mediapr.withclass__company__withuser__username  }}</td>
+                              </tr>
+
+                      {% endfor %}
+
+
+  </tbody>
+
+</table>
+</div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+ <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">المتابعة</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body" style="display: block;">
+            <div class="row">
+    <table class="table table-hover border" style="text-align: center;">
+                  <thead>
+                    <tr>
+                       <th scope="col">التاريخ</th>
+                      <th scope="col">صحية</th>
+                      <th scope="col">نفسية</th>
+                      <th scope="col"> أسرية (إجتماعية )</th>
+                        <th scope="col">سلوكية</th>
+                        <th scope="col">دراسية</th>
+                         <th scope="col">المؤسسة</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                 {% for motasecs in  motabasec %}
+                    <tr>
+                      <td colspan="1" class="align-middle border">{{ motasecs.date|safe }}</td>
+                        <td class="border" id="helth" colspan="1"  >{{ motasecs.healthy }}</td>
+                        <td class="border" id="psychological"  colspan="1"  >{{ motasecs.psychological }}</td>
+                       <td class=" border" id="famlly"  colspan="1"  >{{ motasecs.familial }}</td>
+                          <td class="border" id="behaviorism"  colspan="1"  >{{ motasecs.behaviorism }}</td>
+                          <td class="border" id="study" colspan="1" > {{ motasecs.study }}</td>
+                        <td class="align-middle border">{{ motasecs.withcompany__name }}</td>
+                    </tr>
+                 {% endfor %}
+
+                  {% for foo in  listmota %}
+                    <tr>
+
+                      <td colspan="1" class="align-middle border">{{ foo.date|safe }}</td>
+                        <td class="align-middle border">{{ foo.healthy }}</td>
+                        <td class="align-middle border">{{ foo.psychological }}</td>
+                       <td class="align-middle border">{{ foo.familial }}</td>
+                        <td class="align-middle border">{{ foo.behaviorism }}</td>
+                        <td class="align-middle border">{{ foo.study }}</td>
+                        <td class="align-middle border">{{ foo.withcompany__name }}</td>
+                    </tr>
+                {% endfor %}
+                  </tbody>
+                </table>
+
+            </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+
+{% if listingcell  %}
+
+
+  <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">تنصيب خلية الاصغاء</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+
+
+          <div class="card-body" style="display: block;">
+            <div class="row">
+
+                    <table class="table table-hover border" style="text-align: center;">
+                  <thead>
+
+                    <tr>
+                      <th scope="col">سبب عدم التنصيب</th>
+                      <th scope="col">التاريخ</th>
+                      <th scope="col">الحالة</th>
+                        <th scope="col">المؤسسة</th>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                  {% for listingcells in listingcell %}
+
+
+
+                    <tr class="align-middle">
+
+                      <th class="align-middle" scope="row">{{ listingcells.why }}</th>
+                      <td class="align-middle" colspan="1" >{{ listingcells.date|safe }}</td>
+                      <td class="align-middle">{% if listingcells.stat == "1" %}
+                           <span class="bg-green" style="padding: 5px;display: inline-block;border-radius: 4px;"> منصبة </span>
+                      {% else %}
+                        <span class="bg-red" style="padding: 5px;display: inline-block;border-radius: 4px;">  غير منصبة</span>
+                      {% endif %} </td>
+                       <td class="align-middle" colspan="1" >{{ listingcells.withcompany__name }}</td>
+                    </tr>
+                {% endfor %}
+                  </tbody>
+                </table>
+
+            </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+      {% endif %}
+    <!-- /.content -->
+
+
+    <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">تنصيب لجان المتابعة</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+
+
+          <div class="card-body" style="display: block;">
+            <div class="row">
+
+                    <table class="table table-hover border" style="text-align: center;">
+                  <thead>
+                    <tr>
+
+                      <th scope="col">سبب عدم التنصيب</th>
+                      <th scope="col">التاريخ</th>
+                      <th scope="col">الحالة</th>
+                      <th scope="col">المؤسسة</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for followcomits in followcomit %}
+
+                    <tr class="align-middle">
+
+                      <th class="align-middle" scope="row">{{ followcomits.why }}</th>
+                      <td class="align-middle" colspan="1" >{{ followcomits.date|safe }}</td>
+                      <td class="align-middle">{% if followcomits.stat == "1" %}
+
+                        <span class="bg-green" style="padding: 5px;display: inline-block;border-radius: 4px;"> منصبة </span>
+                      {% else %}
+                        <span class="bg-red" style="padding: 5px;display: inline-block;border-radius: 4px;">  غير منصبة</span>
+                      {% endif %} </td>
+                     <td class="align-middle" colspan="1" >{{ followcomits.withcompany }}</td>
+                    </tr>
+                {% endfor %}
+                  </tbody>
+                </table>
+
+            </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+
+    <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">اعلام الاولياء</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+
+
+          <div class="card-body" style="display: block;">
+            <div class="row">
+
+
+
+
+
+      <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+    <tbody>
+
+
+
+                        <tr style="background-color: #bdbbbb">
+
+
+                            <th scope="col">نسبة الحظور</th>
+                              <th scope="col">عدد الحاضرون</th>
+                              <th scope="col">اجمالي الاستدعاءات</th>
+                              <th scope="col">عدد المسجلين</th>
+                            <th scope="col">المستوى</th>
+                            <th scope="col">المؤسسة</th>
+                         </tr>
+
+                   {% for foor in listilamsec %}
+
+                            <tr>
+
+
+                            <td colspan="1" >{{ foor.percent }} %</td>
+                            <td colspan="1"  >{{ foor.nomberhodor }}</td>
+                            <td colspan="1"  >{{ foor.nomberesteda }}</td>
+                            <td colspan="1">{{ foor.nomberetude }}</td>
+                            <td colspan="1">{{ foor.withdegrey__name }}</td>
+                            <td colspan="1">{{ foor.withsecondray__name }}</td>
+                            </tr>
+
+                  {% endfor %}
+
+  </tbody>
+      </table>
+ <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+          <tbody>
+
+
+
+                        <tr style="background-color: #efbc0d">
+
+                             <th scope="col">نسبة الحظور</th>
+                              <th scope="col">عدد الحاضرون</th>
+                              <th scope="col">اجمالي الاستدعاءات</th>
+                              <th scope="col">عدد المسجلين</th>
+                            <th scope="col">المستوى</th>
+                            <th scope="col">المؤسسة</th>
+                         </tr>
+
+                  {% for foor in datamoypar %}
+
+                            <tr>
+
+                            <td colspan="1" >{{ foor.persontage }} %</td>
+                            <td colspan="1"  >{{ foor.nomberhodor  }}</td>
+                            <td colspan="1"  >{{ foor.nomberesteda  }}</td>
+                            <td colspan="1">{{ foor.withdegry__nomberetud }}</td>
+                            <td colspan="1">{{ foor.withdegry__name  }}</td>
+                            <td colspan="1">{{ foor.withcompany__name  }}</td>
+                            </tr>
+
+                   {% endfor %}
+
+  </tbody>
+</table>
+
+
+ <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+          <tbody>
+
+
+
+                        <tr style="background-color: #6cb0ee">
+
+                            <th scope="col">نسبة الحظور</th>
+
+                              <th scope="col">عدد الحاضرون</th>
+                              <th scope="col">اجمالي الاستدعاءات</th>
+                              <th scope="col">عدد المسجلين</th>
+                            <th scope="col">المستوى</th>
+                            <th scope="col">المؤسسة</th>
+                         </tr>
+
+                  {% for foor in dataprem %}
+
+                            <tr>
+                              <td colspan="1" >{{ foor.persontage }} %</td>
+                            <td colspan="1"  >{{ foor.nomberhodor  }}</td>
+                            <td colspan="1"  >{{ foor.nomberesteda  }}</td>
+                            <td colspan="1">{{ foor.withdegry__nomberetud }}</td>
+                            <td colspan="1">{{ foor.withdegry__name  }}</td>
+                            <td colspan="1">{{ foor.withcompany__name  }}</td>
+                            </tr>
+
+                   {% endfor %}
+
+  </tbody>
+</table>
+
+
+           </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+
+    <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">الوثائق الاعلامية</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+
+
+          <div class="card-body" style="display: block;">
+            <div class="row">
+
+
+
+
+
+      <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+    <tbody>
+
+
+
+                        <tr style="background-color: #bdbbbb">
+
+                              <th scope="col">عددها</th>
+                              <th scope="col">نوع الوثيقة</th>
+                            <th scope="col">المستوى</th>
+                            <th scope="col">المؤسسة</th>
+                         </tr>
+
+                  {% for foor in listmedfilesec %}
+
+                            <tr>
+                            <td colspan="1"  >{{ foor.count  }}</td>
+                            <td colspan="1">{{ foor.type__name  }}</td>
+                            <td colspan="1">{{ foor.withdegry__name  }}</td>
+                            <td colspan="1">{{ foor.withcompany__name  }}</td>
+                            </tr>
+
+                        {% endfor %}
+
+  </tbody>
+      </table>
+ <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+          <tbody>
+
+
+
+                        <tr style="background-color: #efbc0d">
+
+                              <th scope="col">عددها</th>
+                              <th scope="col">نوع الوثيقة</th>
+                            <th scope="col">المستوى</th>
+                            <th scope="col">المؤسسة</th>
+                         </tr>
+
+                  {% for foor in listmedfilemoy %}
+
+                            <tr>
+
+                            <td colspan="1"  >{{ foor.count  }}</td>
+                            <td colspan="1">{{ foor.type__name }}</td>
+                            <td colspan="1">{{ foor.withdegry__name }}</td>
+                            <td colspan="1">{{ foor.withcompany__name  }}</td>
+                            </tr>
+
+                   {% endfor %}
+
+  </tbody>
+</table>
+
+
+
+
+
+           </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+
+
+       <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">نشاطات اخرى</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+
+
+          <div class="card-body" style="display: block;">
+            <div class="row">
+
+
+
+
+
+      <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+    <tbody>
+
+
+
+                        <tr style="background-color: #bdbbbb">
+                         <th scope="col">العدد</th>
+                              <th scope="col">النشاط المنجز</th>
+                              <th scope="col">المؤسسة</th>
+                         </tr>
+
+                  {% for foor in otheractivesec %}
+
+                            <tr>
+                                <td colspan="1">{{ foor.count  }}</td>
+                                <td colspan="1">{{ foor.name__name  }}</td>
+                                <td colspan="1">{{ foor.withcompany1__name  }}</td>
+                            </tr>
+
+                        {% endfor %}
+
+  </tbody>
+      </table>
+ <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+          <tbody>
+
+                        <tr style="background-color: #efbc0d">
+                            <th scope="col">العدد</th>
+                             <th scope="col">النشاط المنجز</th>
+                            <th scope="col">المؤسسة</th>
+                         </tr>
+
+                  {% for foor in otheractivemoy %}
+
+                            <tr>
+                            <td colspan="1">{{ foor.count  }}</td>
+                            <td colspan="1">{{ foor.name__name  }}</td>
+                            <td colspan="1">{{ foor.withcompany2__name  }}</td>
+                            </tr>
+
+                   {% endfor %}
+
+  </tbody>
+</table>
+
+
+ <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+          <tbody>
+
+
+
+                        <tr style="background-color: #6cb0ee">
+
+                            <th scope="col">العدد</th>
+                              <th scope="col">النشاط المنجز</th>
+                            <th scope="col">المؤسسة</th>
+                         </tr>
+
+                  {% for foor in otheractiveprem %}
+
+                            <tr>
+
+                            <td colspan="1">{{ foor.count  }}</td>
+                            <td colspan="1">{{ foor.name__name  }}</td>
+                            <td colspan="1">{{ foor.withcompany3__name  }}</td>
+                            </tr>
+
+                   {% endfor %}
+
+  </tbody>
+</table>
+
+
+
+
+             <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+          <tbody>
+
+
+
+                        <tr style="background-color: #9eee6c">
+
+                            <th scope="col">العدد</th>
+                              <th scope="col">النشاط المنجز</th>
+                              <th scope="col">اسم المستخدم</th>
+
+                         </tr>
+
+                  {% for foor in otheract %}
+
+                            <tr>
+
+                            <td colspan="1">{{ foor.count  }}</td>
+                            <td colspan="1">{{ foor.name__name  }}</td>
+                            <td colspan="1">{{ foor.withuser__username }}</td>
+
+                            </tr>
+
+                   {% endfor %}
+
+  </tbody>
+</table>
+
+           </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<script>
+
+</script>
+{% endblock custom_js %}

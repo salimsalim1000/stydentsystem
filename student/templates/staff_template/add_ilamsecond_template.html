@@ -1,0 +1,154 @@
+{% extends 'staff_template/base_template.html' %}
+{% block page_title %}
+الاعلام الطور الثانوي
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">الحصص الاعلامية</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="/add_classsecond_save" method="post">
+                  {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+
+                    <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+                   <tr style="text-align: center;font-size: x-large; background-color: #5CFFB5B5" >
+
+                <td colspan="6" >{{ companys.name }}</td>
+                </tr>
+                  </thead>
+    <tbody>
+
+               {% for foo in degray %}
+                        <tr style="text-align: center;font-size: x-large; background-color: rgba(231,204,70,0.71)" >
+                                <td colspan="6" >{{ foo.name }}</td>
+                        </tr>
+                        <tr style="background-color: #bdbbbb">
+                              <th scope="col">الاجراء</th>
+                             <th scope="col">التاريخ</th>
+                              <th scope="col">الحصص المقدمة لفوج</th>
+                              <th scope="col">عدد الافواج</th>
+                              <th scope="col">الشعبة</th>
+                         </tr>
+                  {% for foor in degrycomanyexistt %}
+
+                          {% if foor.name|cut:" " == foo.name|cut:" " %}
+                            <tr>
+                            <td colspan="1" ><button style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-info" disabled data-testid="{{ foor.id }}"  id="save-{{ foor.id }}">اضافة</button></td>
+                             <td colspan="1" ><input id="date-{{ foor.id }}" data-dateid="{{ foor.id }}" style="width: 100%;box-sizing: border-box;" type="date"></td>
+                            <td class="inputtest" id="test-{{ foor.id }}" data-testid="{{ foor.id }}" colspan="1" contenteditable ></td>
+                            <td colspan="1">{{ foor.nomberexist }}</td>
+                            <td colspan="1">{{ foor.spesial  }}</td>
+
+                              </tr>
+                          {% endif %}
+
+                      {% endfor %}
+
+{% endfor %}
+  </tbody>
+</table>
+
+
+
+                  </div>
+                   <div class="form-group">
+                      {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+
+                </div>
+
+              </form>
+            </div>
+            <!-- /.card -->
+
+
+
+          </div>
+          </div>
+      </div>
+    </section>
+    <!-- /.content -->
+{% endblock main_content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+
+        $("#degry").change().click(function(){
+            var degryid=$("#degry").val()
+            $.ajax({
+                url:'{% url 'get_spesialite' %}',
+                type:'POST',
+                data:{degryid:degryid},
+            })
+            .done(function(response){
+                var json_data=JSON.parse(response);
+                $('#spesialte').empty()
+                for(key in json_data)
+                {
+                      $("#spesialte").append(new Option(json_data[key]['name'],json_data[key]['id']));
+                }
+            })
+            .fail(function(){
+                alert("خطأ في الحصول على التخصص")
+            });
+        })
+
+        $(".btn-info").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+            var nomber = $(`#test-${id}`).text()
+            var date = $(`#date-${id}`).val()
+            console.log(id)
+            console.log(nomber)
+            console.log(date)
+
+            $.ajax({
+                url:'{% url 'ilam_seconder_save' %}',
+                type:'POST',
+                data:{id:id, nomber:nomber, date:date },
+            })
+            .done(function(response){
+
+                alert("تم الاضافة")
+                $(`#save-${id}`).prop('disabled', true)
+            })
+            .fail(function(){
+                alert("خطأ في الحصول على التخصص")
+            });
+
+        })
+
+		$(".inputtest").keyup(function () {
+			var testid = $(this).data('testid')
+            var input = $(`#test-${testid}`).text()
+			var saveBtn = $(`#save-${testid}`)
+            if (input !== "" ){
+			saveBtn.prop('disabled', false)
+                }else{
+                saveBtn.prop('disabled', true)
+            }
+		})
+    })
+</script>
+{% endblock custom_js %}

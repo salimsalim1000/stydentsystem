@@ -1,0 +1,96 @@
+{% extends 'hod_template/base_template.html' %}
+{% block page_title %}
+اضافة ثانوية
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">اضافة ثانوية</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="/add_secondry_save" method="post">
+                  {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+                    <label>اسم الثانوية </label>
+                    <input type="text" class="form-control" name="name" placeholder="اسم الثانوية">
+
+                       <label>رمز الديوان </label>
+                    <input type="text" class="form-control" name="codeonec" placeholder="رمز الديوان">
+
+                       <label>رمز المؤسسة</label>
+                    <input type="text" class="form-control" name="codelocal" placeholder="رمز المؤسسة">
+                  </div>
+                   <div class="form-group">
+                      {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary btn-block">ادارج المؤسسة</button>
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+
+
+
+          </div>
+          </div>
+      </div>
+    </section>
+    <!-- /.content -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+                <div class="card-body table-responsive p-0">
+                <table class="table table-hover ">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>اسم المؤسسة</th>
+                      <th>رمز الديوان</th>
+                      <th>رمز المؤسسة</th>
+                      <th>المستشار المكلف</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for premer in premers %}
+                    <tr>
+                      <td>{{ premer.id }}</td>
+                      <td>{{ premer.name}}</td>
+                      <td>{{ premer.codeonec }}</td>
+                      <td>{{ premer.codelocal }}</td>
+                      <td>{{ premer.withprimary.first_name }} {{ premer.withprimary.last_name }}</td>
+
+
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div> </div>
+      </div></div>
+</section>
+{% endblock main_content %}
+

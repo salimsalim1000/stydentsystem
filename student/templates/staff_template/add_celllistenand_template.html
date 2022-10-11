@@ -1,0 +1,312 @@
+{% extends 'staff_template/base_template.html' %}
+{% block page_title %}
+خلايا الاصغاء و لجان المتابعة
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+
+{% if  secondarys %}
+  <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default collapsed-card">
+          <div class="card-header">
+            <h3 class="card-title">تنصيب خلية الاصغاء</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+
+
+          <div class="card-body" style="display: none;">
+            <div class="row">
+
+                    <table class="table table-hover border" style="text-align: center;">
+                  <thead>
+                    <tr>
+                      <th scope="col">الاجراء</th>
+                      <th scope="col">سبب عدم التنصيب</th>
+                      <th scope="col">التاريخ</th>
+                      <th scope="col">الحالة</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="align-middle">
+                      <td colspan="1" ><button style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-info align-middle" disabled data-testid="saveexist"  id="saveexist">تنصيب</button> <button style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger" disabled data-testid="savenoexist"  id="savenoexist">غير منصبة</button></td>
+                      <th class="align-middle" scope="row"><input id="why" data-dateid="why" style="width: 100%;box-sizing: border-box;" type="text"></th>
+                      <td class="align-middle" colspan="1" ><input id="date" data-dateid="date" style="width: 100%;box-sizing: border-box;" type="date"></td>
+                      <td class="align-middle">{% if  listeningcells.stat  == "1" %}
+
+                          منصبة
+                      {% else %}
+                          غير منصبة
+                      {% endif %} </td>
+
+                    </tr>
+
+                  </tbody>
+                </table>
+
+            </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+ {% endif  %}
+
+
+
+
+ <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default collapsed-card">
+          <div class="card-header">
+            <h3 class="card-title">المتابعة</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body" style="display: none;">
+            <div class="row">
+    <table class="table table-hover border" style="text-align: center;">
+                  <thead>
+                    <tr>
+                      <th scope="col">الاجراء</th>
+                       <th scope="col">التاريخ</th>
+                      <th scope="col">صحية</th>
+                      <th scope="col">نفسية</th>
+                      <th scope="col"> أسرية (إجتماعية )</th>
+                        <th scope="col">سلوكية</th>
+                        <th scope="col">دراسية</th>
+                         <th scope="col">المؤسسة</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {% if  secondarys %}
+
+                    <tr>
+                      <td colspan="1" class="align-middle border"><button style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-info " disabled id="savemotaba">اضافة</button></td>
+                      <td colspan="1" class="align-middle border"><input id="datesec" style="width: 100%;box-sizing: border-box;" type="date"></td>
+                        <td class="border" id="helth" colspan="1" contenteditable ></td>
+                        <td class="border" id="psychological"  colspan="1" contenteditable ></td>
+                       <td class=" border" id="famlly"  colspan="1" contenteditable ></td>
+                          <td class="border" id="behaviorism"  colspan="1" contenteditable ></td>
+                          <td class="border" id="study" colspan="1" contenteditable ></td>
+                        <td class="align-middle border">{{ secondarys }}</td>
+                    </tr>
+                {% endif %}
+
+                  {% for foo in  companys %}
+                    <tr>
+                      <td colspan="1" class="align-middle border"><button style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-info btnmmoy" disabled data-save="{{ foo.id }}"  id="savemoy-{{ foo.id }}">اضافة</button></td>
+
+                      <td colspan="1" class="align-middle border"><input class="date mmoyen" id="datemoy-{{ foo.id }}" data-date="{{ foo.id }}" style="width: 100%;box-sizing: border-box;" type="date"></td>
+                        <td class="mmoyen border" id="helth-{{ foo.id }}" data-helth="{{ foo.id }}" colspan="1" contenteditable ></td>
+                        <td class="mmoyen border" id="psychological-{{ foo.id }}" data-psychological="{{ foo.id }}" colspan="1" contenteditable ></td>
+                       <td class="mmoyen border" id="famlly-{{ foo.id }}" data-famlly="{{ foo.id }}" colspan="1" contenteditable ></td>
+                          <td class="mmoyen border" id="behaviorism-{{ foo.id }}" data-behaviorism="{{ foo.id }}" colspan="1" contenteditable ></td>
+                          <td class="mmoyen border" id="study-{{ foo.id }}" data-study="{{ foo.id }}" colspan="1" contenteditable ></td>
+                        <td class="align-middle border">{{ foo }}</td>
+                    </tr>
+                {% endfor %}
+                  </tbody>
+                </table>
+
+            </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+
+{% endblock main_content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+        $("#date").change(function () {
+             $("#saveexist").prop("disabled", false)
+        })
+
+         $("#why").keyup(function () {
+             if ($("#why").val() !== ""){
+                  $("#savenoexist").prop("disabled", false)
+             }else {
+                 $("#savenoexist").prop("disabled", true)
+             }
+
+        })
+
+
+        $("#saveexist").click(function(){
+            var idcompany= {{ secondarys.id }}
+
+            var date=$("#date").val()
+            $.ajax({
+                url:'{% url 'save_cell' %}',
+                type:'POST',
+                data:{idcompany:idcompany, date:date},
+            })
+            .done(function(response){
+                alert("تم التنصيب")
+                $("#saveexist").prop("disabled", true)
+            })
+            .fail(function(){
+                alert("خطأ في التنصيب")
+            });
+
+        })
+
+
+         $("#savenoexist").click(function(){
+            var idcompany= {{ secondarys.id }}
+             var why=$("#why").val()
+            $.ajax({
+                url:'{% url 'save_cellnoexist' %}',
+                type:'POST',
+                data:{idcompany:idcompany, why:why},
+            })
+            .done(function(response){
+                alert("غير منصبة")
+                $("#savenoexist").prop("disabled", true)
+            })
+            .fail(function(){
+                alert("خطأ في التنصيب")
+            });
+
+        })
+
+
+        $(".date").change(function () {
+            var id= $(this).data(`dateid`)
+            console.log(id)
+            $(`#save-${id}`).prop("disabled", false)
+        })
+
+         $(".text").keyup(function () {
+             var id= $(this).data(`textid`)
+             if ($(this).val() !== ""){
+                  $(`#unsave-${id}`).prop("disabled", false)
+             }else {
+                 $(`#unsave-${id}`).prop("disabled", true)
+             }
+
+        })
+
+
+          $(".btncell").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('save')
+            var date = $(`#date-${id}`).val()
+            console.log(date)
+            console.log(id)
+            $.ajax({
+                url:'{% url 'cell_moyen_save' %}',
+                type:'POST',
+                data:{id:id, date:date },
+            })
+            .done(function(response){
+
+                alert("تم التنصيب")
+                $(`#save-${id}`).prop('disabled', true)
+            })
+            .fail(function(){
+                alert("خطأ في التنصيب")
+            });
+
+        })
+
+
+        $(".btnnocell").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('unsave')
+            var way = $(`#text-${id}`).val()
+
+            $.ajax({
+                url:'{% url 'nocell_moyen_save' %}',
+                type:'POST',
+                data:{id:id, way:way },
+            })
+            .done(function(response){
+
+                alert("تم اضافة سبب عدم التنصيب")
+                $(`#save-${id}`).prop('disabled', true)
+            })
+            .fail(function(){
+                alert("خطأ في عدم التنصيب")
+            });
+
+        })
+
+        $("#datesec").change(function () {
+            $("#savemotaba").prop("disabled", false)
+        })
+
+        $(".mmoyen").change(function () {
+            var id = $(this).data('date')
+            $(`#savemoy-${id}`).prop("disabled", false)
+        })
+
+          $("#savemotaba").click(function(){
+            var idcompany= {{ secondarys.id }}
+            var helth=$("#helth").text()
+            var behaviorism=$("#behaviorism").text()
+            var study=$("#study").text()
+            var familial=$("#famlly").text()
+            var psychological=$("#psychological").text()
+            var date=$("#datesec").val()
+            $.ajax({
+                url:'{% url 'save_motaba' %}',
+                type:'POST',
+                data:{idcompany:idcompany, date:date, helth:helth, behaviorism:behaviorism, study:study, familial:familial, psychological:psychological},
+            })
+            .done(function(response){
+                alert("تم الاضافة")
+                $("#savemotaba").prop("disabled", true)
+            })
+            .fail(function(){
+                alert("خطأ في الاضافة")
+            });
+
+        })
+
+
+        $(".btnmmoy").click(function(){
+            var id = $(this).data('save')
+            var helth=$(`#helth-${id}`).text()
+            var behaviorism=$(`#behaviorism-${id}`).text()
+            var study=$(`#study-${id}`).text()
+            var familial=$(`#famlly-${id}`).text()
+            var psychological=$(`#psychological-${id}`).text()
+            var date=$(`#datemoy-${id}`).val()
+
+            $.ajax({
+                url:'{% url 'save_motaba_moy' %}',
+                type:'POST',
+                data:{id:id, date:date, helth:helth, behaviorism:behaviorism, study:study, familial:familial, psychological:psychological},
+            })
+            .done(function(response){
+                alert("تم الاضافة")
+                $(`#savemoy-${id}`).prop("disabled", true)
+            })
+            .fail(function(){
+                alert("خطأ في الاضافة")
+            });
+
+        })
+    })
+</script>
+{% endblock custom_js %}

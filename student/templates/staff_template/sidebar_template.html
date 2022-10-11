@@ -25,8 +25,8 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            {% url 'staff_home' as staff_home %}
-            <a href="{{ staff_home }}" class="nav-link {% if request.path == staff_home %} active {% endif %}">
+            {% url 'mostachar_home' as mostachar_home %}
+            <a href="{{ mostachar_home }}" class="nav-link {% if request.path == mostachar_home %} active {% endif %}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Home
@@ -34,45 +34,200 @@
             </a>
           </li>
 
+
+    {% if preexiste %}
+           <li class="nav-item">
+            {% url 'add_degreyprem' as add_degreyprem %}
+            <a href="{{ add_degreyprem }}" class="nav-link {% if request.path == add_degreyprem %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                اضافة طور ابتدائي
+
+              </p>
+            </a>
+          </li>
+    {% endif %}
+         {% if  moyenexiste %}
          <li class="nav-item">
-            {% url 'staff_take_attendance' as staff_take_attendance %}
-            <a href="{{ staff_take_attendance }}" class="nav-link {% if request.path == staff_take_attendance %} active {% endif %}">
+            {% url 'add_degreymoyene' as add_degreymoyene %}
+            <a href="{{ add_degreymoyene }}" class="nav-link {% if request.path == add_degreymoyene %} active {% endif %}">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Take Attendance
+                اضافة طور متوسط
+              </p>
+            </a>
+          </li>
+           {% endif %}
+            {% if seconderexisttt  %}
+
+           <li class="nav-item">
+            {% url 'add_degresecondarye' as add_degresecondarye %}
+            <a href="{{ add_degresecondarye }}" class="nav-link {% if request.path == add_degresecondarye %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                اضافة  ثانوي
+              </p>
+            </a>
+          </li>
+            {% endif %}
+
+
+        {% if  seconderexisttt  %}
+
+           <li class="nav-item">
+            {% url 'ilam_seconder' as ilam_seconder %}
+            <a href="{{ ilam_seconder }}" class="nav-link {% if request.path == ilam_seconder %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                الاعلام ثانوي
+              </p>
+            </a>
+          </li>
+            {% endif %}
+  {% if  moyenexiste %}
+           <li class="nav-item">
+            {% url 'ilam_moyen' as ilam_moyen %}
+            <a href="{{ ilam_moyen }}" class="nav-link {% if request.path == ilam_moyen %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                الاعلام متوسط
+              </p>
+            </a>
+          </li>
+  {% endif %}
+      {% if  preexiste %}
+        <li class="nav-item">
+            {% url 'ilam_prem' as ilam_prem %}
+            <a href="{{ ilam_prem }}" class="nav-link {% if request.path == ilam_prem %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                الاعلام ابتدائي
+              </p>
+            </a>
+          </li>
+      {% endif %}
+
+                {% if  seconderexisttt  %}
+           <li class="nav-item">
+            {% url 'cell_listen' as cell_listen %}
+            <a href="{{ cell_listen }}" class="nav-link {% if request.path == cell_listen %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                  المتابعة
+              </p>
+            </a>
+          </li>
+             {% endif %}
+
+  {% if  moyenexiste %}
+              <li class="nav-item">
+            {% url 'cell_coumit' as cell_coumit %}
+            <a href="{{ cell_coumit }}" class="nav-link {% if request.path == cell_coumit %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                 المتابعة متوسط
+              </p>
+            </a>
+          </li>
+     {% endif  %}
+     {% if  seconderexisttt  %}
+          <li class="nav-item">
+            {% url 'ilam_parents' as ilam_parents %}
+            <a href="{{ ilam_parents }}" class="nav-link {% if request.path == ilam_parents %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+               اعلام الاولياء ثانوي
+              </p>
+            </a>
+          </li>
+     {% endif  %}
+ {% if  moyenexiste %}
+            <li class="nav-item">
+            {% url 'ilam_parents_moy' as ilam_parents_moy %}
+            <a href="{{ ilam_parents_moy }}" class="nav-link {% if request.path == ilam_parents_moy %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                   اعلام الاولياء متوسط
+              </p>
+            </a>
+          </li>
+{% endif  %}
+
+         {% if  preexiste %}
+            <li class="nav-item">
+            {% url 'ilam_parents_prem' as ilam_parents_prem %}
+            <a href="{{ ilam_parents_prem }}" class="nav-link {% if request.path == ilam_parents_prem %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                 اعلام الاولياء ابتدائي
+              </p>
+            </a>
+          </li>
+        {% endif  %}
+         {% if seconderexisttt %}
+          <li class="nav-item">
+            {% url 'add_file_media' as add_file_media %}
+            <a href="{% url 'add_file_media' %}" class="nav-link {% if request.path == add_file_media %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                اضافة وثيقة اعلامية
+              </p>
+            </a>
+          </li>
+                {% endif  %}
+        {% if  moyenexiste %}
+                  <li class="nav-item">
+            {% url 'add_file_mediamoy' as add_file_mediamoy %}
+            <a href="{% url 'add_file_mediamoy' %}" class="nav-link {% if request.path == add_file_mediamoy %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                اضافة وثيقة اعلامية
+              </p>
+            </a>
+          </li>
+                {% endif  %}
+ {% if seconderexisttt %}
+          <li class="nav-item">
+            {% url 'other_activite' as other_activite %}
+            <a href="{% url 'other_activite' %}" class="nav-link {% if request.path == other_activite %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                انشطة اخرى
+              </p>
+            </a>
+          </li>
+         {% endif %}
+ {% if  moyenexiste %}
+                  <li class="nav-item">
+            {% url 'other_activitemoy' as other_activitemoy %}
+            <a href="{% url 'other_activitemoy' %}" class="nav-link {% if request.path == other_activitemoy %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                انشطة اخرى
+              </p>
+            </a>
+          </li>
+        {% endif  %}
+           <li class="nav-item">
+            {% url 'date_range_all' as date_range_all %}
+            <a href="{% url 'date_range_all' %}" class="nav-link {% if request.path == date_range_all %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                تجميع الانشطة
               </p>
             </a>
           </li>
 
             <li class="nav-item">
-            {% url 'staff_update_attendance' as staff_update_attendance %}
-            <a href="{{ staff_update_attendance }}" class="nav-link {% if request.path == staff_update_attendance %} active {% endif %}">
+            {% url 'date_range_fulle' as date_range_fulle %}
+            <a href="{% url 'date_range_fulle' %}" class="nav-link {% if request.path == date_range_fulle %} active {% endif %}">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Update Attendance
+                 تجميع الانشطة عام
               </p>
             </a>
           </li>
 
-            <li class="nav-item">
-            {% url 'staff_aplly_leave' as staff_aplly_leave %}
-            <a href="{{ staff_aplly_leave }}" class="nav-link {% if request.path == staff_aplly_leave %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Aplly Leave
-              </p>
-            </a>
-          </li>
-
-            <li class="nav-item">
-            {% url 'staff_feedback' as staff_feedback %}
-            <a href="{{ staff_feedback }}" class="nav-link {% if request.path == staff_feedback %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Staff Feedback
-              </p>
-            </a>
-          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

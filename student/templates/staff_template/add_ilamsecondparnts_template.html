@@ -1,0 +1,137 @@
+{% extends 'staff_template/base_template.html' %}
+{% block page_title %}
+الاعلام
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">الحصص الاعلامية</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="#" method="post">
+                  {% csrf_token %}
+                <div class="card-body">
+                  <div class="form-group">
+
+                    <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+                   <tr style="text-align: center;font-size: x-large; background-color: #5CFFB5B5" >
+
+                <td colspan="6" >{{ companys.name }}</td>
+                </tr>
+                  </thead>
+    <tbody>
+
+                {% for foor in data_list %}
+                {% if  foor.nomberetud__sum != None %}
+                        <tr style="text-align: center;font-size: x-large; background-color: rgba(231,204,70,0.71)" >
+                                <td colspan="6" >{{ foor.name }}</td>
+                        </tr>
+                        <tr style="background-color: #bdbbbb">
+                              <th scope="col">الاجراء</th>
+                             <th scope="col">التاريخ</th>
+                              <th scope="col">عدد الحاضرون</th>
+                              <th scope="col">اجمالي الاستدعاءات</th>
+                              <th scope="col">عدد المسجلين</th>
+                         </tr>
+
+
+
+                            <tr>
+                            <td colspan="1" ><button style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-info" disabled data-testid="{{ foor.id }}"  id="save-{{ foor.id }}">اضافة</button></td>
+                             <td colspan="1" ><input class="date" id="date-{{ foor.id }}" data-date="{{ foor.id }}" style="width: 100%;box-sizing: border-box;" type="date"></td>
+                            <td class="inputtest" id="come-{{ foor.id }}" data-come="{{ foor.id }}" colspan="1" contenteditable ></td>
+                            <td class="inputtest" id="ist-{{ foor.id }}" data-ist="{{ foor.id }}" colspan="1" contenteditable ></td>
+                            <td colspan="1">{{ foor.nomberetud__sum  }}</td>
+
+                              </tr>
+                        {% endif %}
+
+
+
+{% endfor %}
+  </tbody>
+</table>
+
+
+
+                  </div>
+                   <div class="form-group">
+                      {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+
+              </form>
+            </div>
+            <!-- /.card -->
+
+
+
+          </div>
+          </div>
+      </div>
+    </section>
+    <!-- /.content -->
+{% endblock main_content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+
+        $(".date").change(function () {
+			var testid = $(this).data('date')
+            var input = $(`#come-${testid}`).text()
+			var saveBtn = $(`#save-${testid}`)
+
+			    saveBtn.prop('disabled', false)
+
+
+		})
+
+
+        $(".btn-info").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+            var ist = $(`#ist-${id}`).text()
+            var come = $(`#come-${id}`).text()
+            var date = $(`#date-${id}`).val()
+
+            $.ajax({
+                url:'{% url 'save_ilam_parnts' %}',
+                type:'POST',
+                data:{id:id, ist:ist, come:come, date:date },
+            })
+            .done(function(response){
+
+                alert("تم الاضافة")
+                $(`#save-${id}`).prop('disabled', true)
+            })
+            .fail(function(){
+                alert("خطأ في الحصول على التخصص")
+            });
+
+        })
+
+
+    })
+</script>
+{% endblock custom_js %}

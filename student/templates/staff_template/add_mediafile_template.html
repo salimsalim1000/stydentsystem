@@ -1,0 +1,218 @@
+{% extends 'staff_template/base_template.html' %}
+{% block page_title %}
+الوثائق الاعلامية
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+
+{% if  secondarys %}
+  <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">نشاطات الثانوي</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+            </div>
+          </div>
+          <!-- /.card-header -->
+
+
+          <div class="card-body" style="display: block;">
+            <div class="row">
+
+                    <table class="table table-hover border" style="text-align: center;">
+                  <thead>
+                    <tr>
+                      <th scope="col">الاجراء</th>
+                      <th scope="col">التاريخ</th>
+                        <th scope="col">عنوان الوثيقة</th>
+                      <th scope="col">نوع الوثيقة</th>
+                        <th scope="col">الطور</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for foo in degray %}
+                    <tr class="align-middle">
+                      {% for foor in data_list %}
+                    {% if foor.name|cut:" " == foo.name|cut:" " %}
+                      <td colspan="1" ><button style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-info align-middle save" disabled data-degry="{{ foo.id }}"  id="save-{{ foo.id }}">اضافة</button> </td>
+                     <td class="align-middle" colspan="1" ><input class="datesec" id="datesec-{{ foo.id }}" data-datesecid="{{ foo.id }}" style="width: 100%;box-sizing: border-box;" type="date"></td>
+                      <th class="align-middle" scope="row" contenteditable id="text-{{ foo.id }}"></th>
+
+                       <td class="align-middle" colspan="1" > <select class="form-control" id="options-{{ foo.id }}" name="options">
+                        {% for act in typefile %}
+                          <option value="{{ act.id }}">{{ act.name }}</option>
+                        {% endfor %}
+                       </select>
+                       </td>
+                    <td colspan="1">{{ foor.name  }}</td>
+                    </tr>
+                  {% endif %}
+
+                      {% endfor %}
+
+            {% endfor %}
+                  </tbody>
+                </table>
+
+            </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+ {% endif  %}
+
+    {% if  companys%}
+
+      <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">نشاطات المتوسطات</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body" style="display: block;">
+            <div class="row">
+    <table class="table table-hover border" style="text-align: center;">
+                  <thead>
+                  {% for foo in  companys %}
+                            <tr style="text-align: center;font-size: x-large; background-color: rgba(255,228,92,0.71)" >
+
+                <td colspan="6" >{{ foo.name }}</td>
+                </tr>
+                    <tr>
+                      <th scope="col">الاجراء</th>
+                      <th scope="col">التاريخ</th>
+                      <th scope="col">عنوان الوثيقة</th>
+                      <th scope="col">نوع الوثيقة</th>
+                         <th scope="col">المستوى</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+
+                       {% for foor in degraylistmoy %}
+
+                         {% if foor.company_id|cut:" " == foo.id|cut:" " %}
+                    <tr>
+                      <td colspan="1" class="align-middle"><button style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-info btncell" disabled data-idcomp="{{ foor.company_id }}" data-iddegrycomp="{{ foor.id }}" id="savemoy-{{ foor.id }}">اضافة</button> </td>
+                      <td colspan="1" class="align-middle"><input class="date" id="datemoy-{{ foor.id }}" data-iddegrycomp="{{ foor.id }}" style="width: 100%;box-sizing: border-box;" type="date"></td>
+                      <th scope="row" class="align-middle" id="textmoy-{{ foor.id }}" contenteditable></th>
+
+                           <td class="align-middle" colspan="1" > <select class="form-control" id="optionmoy-{{ foor.id }}" name="optionmoy">
+                        {% for deg in typefile %}
+
+                                     <option value="{{ deg.id }}">{{ deg.name }}</option>
+
+
+                        {% endfor %}
+                       </select>
+                       </td>
+
+                        <td class="align-middle">{{ foor.name }}</td>
+                    </tr>
+     {% endif %}
+
+                      {% endfor %}
+
+
+                {% endfor %}
+                  </tbody>
+                </table>
+
+            </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    {% endif %}
+
+{% endblock main_content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+        //تاريخ الثانوي
+        $(".datesec").change(function () {
+            var id= $(this).data(`datesecid`)
+            $(`#save-${id}`).prop("disabled", false)
+
+        })
+
+
+// نشاطات الثانوية:
+        $(".save").click(function(){
+            var idcompany = {{ secondarys.id }}
+            var iddegry= $(this).data(`degry`)
+            var date=$(`#datesec-${iddegry}`).val()
+            var why=$(`#text-${iddegry}`).text()
+            var options=$(`#options-${iddegry}`).val()
+
+
+            $.ajax({
+                url:'{% url 'add_mediasec_save' %}',
+                type:'POST',
+                data:{idcompany:idcompany, date:date, why:why, options:options, iddegry:iddegry},
+            })
+            .done(function(response){
+                alert("تم الاضافة")
+                $(`#save-${iddegry}`).prop("disabled", true)
+            })
+            .fail(function(){
+                alert("خطأ في الادراج")
+            });
+
+        })
+
+
+
+              //تاريخ المتوسط
+        $(".date").change(function () {
+            var id= $(this).data(`iddegrycomp`)
+            $(`#savemoy-${id}`).prop("disabled", false)
+
+        })
+// وثيقة اعلامية المتوسط:
+        $(".btncell").click(function(){
+            var iddegrycomp = $(this).data(`iddegrycomp`)
+            var idcomp = $(this).data(`idcomp`)
+            var date = $(`#datemoy-${iddegrycomp}`).val()
+            var why = $(`#textmoy-${iddegrycomp}`).text()
+            var options = $(`#optionmoy-${iddegrycomp}`).val()
+
+
+            $.ajax({
+                url:'{% url 'add_mediamoyen_save' %}',
+                type:'POST',
+                data:{date:date, why:why, options:options, idcomp:idcomp, iddegrycomp:iddegrycomp},
+            })
+            .done(function(){
+                alert("تم الاضافة")
+                $(`#savemoy-${iddegrycomp}`).prop("disabled", true)
+            })
+            .fail(function(){
+                alert("خطأ في الادراج")
+            });
+
+        })
+
+
+    })
+</script>
+{% endblock custom_js %}

@@ -1,0 +1,369 @@
+{% extends 'staff_template/base_template.html' %}
+{% block page_title %}
+الانشطة المختلفة
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+
+{% if  secondarys %}
+  <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default collapsed-card">
+          <div class="card-header">
+            <h3 class="card-title">نشاطات الثانوي</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+            </div>
+          </div>
+          <!-- /.card-header -->
+
+
+          <div class="card-body" style="display: none;">
+            <div class="row">
+
+                    <table class="table table-hover border" style="text-align: center;">
+                  <thead>
+                    <tr>
+                      <th scope="col">الاجراء</th>
+                     <th scope="col">ملاحظة</th>
+                      <th scope="col">التاريخ</th>
+                      <th scope="col">النشاط المنجز</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="align-middle">
+                      <td colspan="1" ><button style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-info align-middle" disabled data-testid="saveexist"  id="saveexist">اضافة</button> </td>
+                      <th class="align-middle" scope="row"><input id="why" data-dateid="why" style="width: 100%;box-sizing: border-box;" type="text"></th>
+                      <td class="align-middle" colspan="1" ><input id="date" data-dateid="date" style="width: 100%;box-sizing: border-box;" type="date"></td>
+                       <td class="align-middle" colspan="1" > <select class="form-control" id="options" name="options">
+                        {% for act in allactivite %}
+                            {% if act.typee == "1" %}
+                                     <option value="{{ act.id }}">{{ act.name }}</option>
+                            {% endif %}
+
+                        {% endfor %}
+                       </select>
+                       </td>
+
+                    </tr>
+
+                  </tbody>
+                </table>
+
+            </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+ {% endif  %}
+    {% if companys %}
+
+      <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default collapsed-card">
+          <div class="card-header">
+            <h3 class="card-title">نشاطات المتوسطات</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body" style="display: none;">
+            <div class="row">
+    <table class="table table-hover border" style="text-align: center;">
+                  <thead>
+                    <tr>
+                      <th scope="col">الاجراء</th>
+                      <th scope="col">ملاحظة</th>
+                      <th scope="col">التاريخ</th>
+                      <th scope="col">النشاط المنجز</th>
+                         <th scope="col">المتوسطة</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for foo in  companys %}
+
+                    <tr>
+                      <td colspan="1" class="align-middle"><button style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-info btncell" disabled data-savemoy="{{ foo.id }}"  id="savemoy-{{ foo.id }}">تنصيب</button> </td>
+                      <th scope="row" class="align-middle"><input class="text" id="textmoy-{{ foo.id }}" data-textid="{{ foo.id }}" style="width: 100%;box-sizing: border-box;" type="text"></th>
+                      <td colspan="1" class="align-middle"><input class="date" id="datemoy-{{ foo.id }}" data-dateid="{{ foo.id }}" style="width: 100%;box-sizing: border-box;" type="date"></td>
+                           <td class="align-middle" colspan="1" > <select class="form-control" id="optionmoy-{{ foo.id }}" name="optionmoy">
+                        {% for deg in allactivite %}
+                            {% if deg.typee == "2" %}
+                                     <option value="{{ deg.id }}">{{ deg.name }}</option>
+                            {% endif %}
+
+                        {% endfor %}
+                       </select>
+                       </td>
+
+                        <td class="align-middle">{{ foo }}</td>
+                    </tr>
+                {% endfor %}
+                  </tbody>
+                </table>
+
+            </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+{% endif %}
+    {% if prymerys %}
+      <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default collapsed-card">
+          <div class="card-header">
+            <h3 class="card-title">نشاطات الابتدائي</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body" style="display: none;">
+            <div class="row">
+    <table class="table table-hover border" style="text-align: center;">
+                  <thead>
+                    <tr>
+                      <th scope="col">الاجراء</th>
+                      <th scope="col">ملاحظة</th>
+                      <th scope="col">التاريخ</th>
+                      <th scope="col">النشاط المنجز</th>
+                         <th scope="col">الابتدائيات</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for foo in  prymerys %}
+
+                    <tr>
+                      <td colspan="1" class="align-middle"><button style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-info btnnocell" disabled data-save="{{ foo.id }}"  id="save-{{ foo.id }}">تنصيب</button> </td>
+                      <th scope="row" class="align-middle"><input class="text" id="text-{{ foo.id }}" data-textid="{{ foo.id }}" style="width: 100%;box-sizing: border-box;" type="text"></th>
+                      <td colspan="1" class="align-middle"><input class="date" id="dateidprem-{{ foo.id }}" data-dateidprem="{{ foo.id }}" style="width: 100%;box-sizing: border-box;" type="date"></td>
+                           <td class="align-middle" colspan="1" > <select class="form-control" id="optionprem-{{ foo.id }}" name="optionprem">
+                        {% for deg in allactivite %}
+                            {% if deg.typee == "3" %}
+                                     <option value="{{ deg.id }}">{{ deg.name }}</option>
+                            {% endif %}
+
+                        {% endfor %}
+                       </select>
+                       </td>
+
+                        <td class="align-middle">{{ foo }}</td>
+                    </tr>
+                {% endfor %}
+                  </tbody>
+                </table>
+
+            </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+{% endif %}
+      <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default collapsed-card">
+          <div class="card-header">
+            <h3 class="card-title">نشاطات عامة</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-remove"></i></button>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body" style="display: none;">
+            <div class="row">
+    <table class="table table-hover border" style="text-align: center;">
+                  <thead>
+                    <tr>
+                      <th scope="col">الاجراء</th>
+                      <th scope="col">ملاحظة</th>
+                      <th scope="col">التاريخ</th>
+                      <th scope="col">النشاط المنجز</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+
+
+                    <tr>
+                      <td colspan="1" class="align-middle"><button style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-info " disabled id="saveact">اضافة</button> </td>
+                      <th scope="row" class="align-middle"><input class="text" id="textwhy"  style="width: 100%;box-sizing: border-box;" type="text"></th>
+                      <td colspan="1" class="align-middle"><input class="date" id="dateany"  style="width: 100%;box-sizing: border-box;" type="date"></td>
+                           <td class="align-middle" colspan="1" > <select class="form-control" id="optionany" name="optionany">
+                        {% for act in allactivite %}
+                            {% if act.typee == "4" %}
+                                     <option value="{{ act.id }}">{{ act.name }}</option>
+                            {% endif %}
+
+                        {% endfor %}
+                       </select>
+                       </td>
+
+
+                    </tr>
+
+                  </tbody>
+                </table>
+
+            </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+{% endblock main_content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+        //تاريخ الثانوي
+        $("#date").change(function () {
+             $("#saveexist").prop("disabled", false)
+        })
+
+
+// نشاطات الثانوية:
+        $("#saveexist").click(function(){
+            var idcompany = {{ secondarys.id }}
+
+            var date=$("#date").val()
+            var why=$("#why").val()
+            var options=$("#options").val()
+
+            $.ajax({
+                url:'{% url 'save_activeite_sec' %}',
+                type:'POST',
+                data:{idcompany:idcompany, date:date, why:why, options:options},
+            })
+            .done(function(response){
+                alert("تم الاضافة")
+                $("#saveexist").prop("disabled", true)
+            })
+            .fail(function(){
+                alert("خطأ في الادراج")
+            });
+
+        })
+
+// نشاطات عامة:
+        $("#saveact").click(function(){
+
+            var date=$("#dateany").val()
+            var why=$("#textwhy").val()
+            var options=$("#optionany").val()
+
+            $.ajax({
+                url:'{% url 'save_activeite_any' %}',
+                type:'POST',
+                data:{date:date, why:why, options:options},
+            })
+            .done(function(response){
+                alert("تم الاضافة")
+                $("#saveact").prop("disabled", true)
+            })
+            .fail(function(){
+                alert("خطأ في الاضافة")
+            });
+
+        })
+
+          //تاريخ المتوسط
+        $(".date").change(function () {
+            var id= $(this).data(`dateid`)
+            $(`#savemoy-${id}`).prop("disabled", false)
+        })
+
+                //التاريخ العام
+           $("#dateany").change(function () {
+
+            $("#saveact").prop("disabled", false)
+        })
+
+
+
+//نشاطات المتوسطة
+          $(".btncell").click(function (event) {
+            event.preventDefault();
+            var idmoy = $(this).data('savemoy')
+            var date = $(`#datemoy-${idmoy}`).val()
+            var textmoy = $(`#textmoy-${idmoy}`).val()
+            var optionmoy = $(`#optionmoy-${idmoy}`).val()
+
+            $.ajax({
+                url:'{% url 'save_activeite_moy' %}',
+                type:'POST',
+                data:{idmoy:idmoy, date:date, textmoy:textmoy, optionmoy:optionmoy },
+            })
+            .done(function(){
+
+                alert("تم الاضافة")
+                $(`#savemoy-${idmoy}`).prop('disabled', true)
+            })
+            .fail(function(){
+                alert("خطأ في الاضافة")
+            });
+
+        })
+
+//نشاطات الابتدائي
+        $(".btnnocell").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('save')
+            var way = $(`#text-${id}`).val()
+            var date = $(`#dateidprem-${id}`).val()
+            var optionprem = $(`#optionprem-${id}`).val()
+
+
+            $.ajax({
+                url:'{% url 'save_activeite_prem' %}',
+                type:'POST',
+                data:{id:id, way:way, date:date, optionprem:optionprem },
+            })
+            .done(function(){
+
+                alert("تم اضافة النشاط")
+                $(`#save-${id}`).prop('disabled', true)
+            })
+            .fail(function(){
+                alert("خطأ في الادراج")
+            });
+
+        })
+
+
+
+        //تاريخ الابتدئي
+        $(".date").change(function () {
+            var id = $(this).data('dateidprem')
+            $(`#save-${id}`).prop("disabled", false)
+        })
+
+
+
+
+
+
+    })
+</script>
+{% endblock custom_js %}

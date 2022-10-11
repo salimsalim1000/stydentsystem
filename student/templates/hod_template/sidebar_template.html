@@ -35,144 +35,192 @@
               </p>
             </a>
           </li>
+       <li class="nav-item">
+            {% url 'mostachar_info' as mostachar_info %}
+            <a href="{{ mostachar_info }}" class="nav-link {% if request.path == mostachar_info %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                المعلومات الشخصية
+              </p>
+            </a>
+          </li>
+
+            <li class="nav-item">
+            {% url 'add_mostachar' as add_mostachar %}
+            <a href="{{ add_mostachar }}" class="nav-link {% if request.path == add_mostachar %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                اضافة مستشار
+              </p>
+            </a>
+          </li>
 
           <li class="nav-item">
-            {% url 'add_staff' as add_staff %}
-            <a href="{{ add_staff }}" class="nav-link {% if request.path == add_staff %} active {% endif %}">
+            {% url 'manage_mostachar' as manage_mostachar %}
+             {% url 'edit_mostachar' mostachar_id=mostachar.withuser.id as edit_mostachar %}
+            <a href="{{ manage_mostachar }}" class="nav-link {% if request.path == manage_mostachar %} active {% endif %} {% if request.path == edit_mostachar %} active {% endif %}">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Add Staff
+                تعديل مستشار
               </p>
             </a>
           </li>
+
+             <li class="nav-item">
+            {% url 'distribit' as distribit %}
+            <a href="{{ distribit }}" class="nav-link {% if request.path == distribit %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                توزيع المستشارين
+              </p>
+            </a>
+          </li>
+
+
+
+
+
+              <li class="nav-item">
+            {% url 'date_all' as date_all %}
+            <a href="{% url 'date_all' %}" class="nav-link {% if request.path == date_all %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                التجميع التفصيلي
+              </p>
+            </a>
+          </li>
+
+        <li class="nav-item">
+            {% url 'date_range_full' as date_range_full %}
+            <a href="{% url 'date_range_full' %}" class="nav-link {% if request.path == date_range_full %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                التجميع العام
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            {% url 'add_premary' as add_premary %}
+            <a href="{% url 'add_premary' %}" class="nav-link {% if request.path == add_premary %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                اضافة ابتدائية
+              </p>
+            </a>
+          </li>
+
            <li class="nav-item">
-              {% url 'manage_staff' as manage_staff %}
-            {% url 'edit_staff' staff_id=staff_idd as edit_staff %}
-            <a href="{% url 'manage_staff' %}  " class="nav-link {% if request.path == manage_staff %} active {% endif %} {% if request.path == edit_staff %} active {% endif %}">
+            {% url 'add_moyen' as add_moyen %}
+            <a href="{% url 'add_moyen' %}" class="nav-link {% if request.path == add_moyen %} active {% endif %}">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Manage Staff
+                اضافة متوسطة
               </p>
             </a>
           </li>
-          <li class="nav-item">
-              {% url 'add_student' as add_student %}
-            <a href="{% url 'add_student' %}" class="nav-link {% if request.path == add_student %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Add Student
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-              {% url 'manage_student' as manage_student %}
-              {% url 'edit_student' student_id=id as edit_student %}
-            <a href="{% url 'manage_student' %}" class="nav-link {% if request.path == manage_student %} active {% endif %} {% if request.path == edit_student %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Manage Students
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            {% url 'add_course' as add_course %}
-            <a href="{% url 'add_course' %}" class="nav-link {% if request.path == add_course %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Add Course
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            {% url 'manage_course' as manage_course %}
-              {% url 'edit_course' cours_id=id as edit_course %}
-            <a href="{% url 'manage_course' %} " class="nav-link {% if request.path == manage_course %} active {% endif %} {% if request.path == edit_course %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Manage Course
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            {% url 'add_subject' as add_subject %}
-            <a href="/add_subject" class="nav-link {% if request.path == add_subject %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Add Subject
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            {% url 'manage_subject' as manage_subject %}
-            {% url 'edit_subject' subject_id=id as edit_subject %}
-            <a href="/manage_subject" class="nav-link {% if request.path == manage_subject %} active {% endif %} {% if request.path == edit_subject %} active {% endif %} ">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Manage Subject
-              </p>
-            </a>
-          </li>
+
            <li class="nav-item">
-               {% url 'admin_view_attendance' as admin_view_attendance %}
-             <a href="{% url 'admin_view_attendance' %}" class="nav-link {% if request.path == admin_view_attendance %} active {% endif %}">
+            {% url 'add_secondry' as add_secondry %}
+            <a href="{% url 'add_secondry' %}" class="nav-link {% if request.path == add_secondry %} active {% endif %}">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                View Attendance
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
-          </li>
-           <li class="nav-item">
-            {% url 'student_feedback_message' as student_feedback_message %}
-            <a href="{% url 'student_feedback_message' %}" class="nav-link {% if request.path == student_feedback_message %} active {% endif %} ">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Student Feedback
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
-          </li>
-           <li class="nav-item">
-               {% url 'staff_feedback_message' as staff_feedback_message %}
-            <a href="{% url 'staff_feedback_message' %}" class="nav-link {% if request.path == staff_feedback_message %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Staff Feedback
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
-          </li>
-           <li class="nav-item">
-               {% url 'student_leave_view' as student_leave_view %}
-            <a href="{% url 'student_leave_view' %}" class="nav-link {% if request.path == student_leave_view %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Student Leave
-                <span class="right badge badge-danger">New</span>
+                اضافة ثانوية
               </p>
             </a>
           </li>
             <li class="nav-item">
-                 {% url 'staff_leave_view' as staff_leave_view %}
-            <a href="{% url 'staff_leave_view' %}" class="nav-link {% if request.path == staff_leave_view %} active {% endif %}">
+            {% url 'add_degreypremglobal' as add_degreyprem %}
+            <a href="{% url 'add_degreypremglobal' %}" class="nav-link {% if request.path == add_degreypremglobal %} active {% endif %}">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Staff Leave
-                <span class="right badge badge-danger">New</span>
+                اضافة مستوى ابتدائي
+              </p>
+            </a>
+          </li>
+                 <li class="nav-item">
+            {% url 'add_degreymoyen' as add_degreymoyen %}
+            <a href="{% url 'add_degreymoyen' %}" class="nav-link {% if request.path == add_degreymoyen %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                اضافة مستوى متوسط
+              </p>
+            </a>
+          </li>
+            <li class="nav-item">
+            {% url 'add_degreyseco' as add_degreyseco %}
+            <a href="{% url 'add_degreyseco' %}" class="nav-link {% if request.path == add_degreyseco %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                اضافة مستوى ثانوية
               </p>
             </a>
           </li>
 
-         <li class="nav-item">
-             {% url 'manage_session' as manage_session %}
-            <a href="/manage_session" class="nav-link {% if request.path == manage_session %} active {% endif %} ">
+          <li class="nav-item">
+            {% url 'add_speasial' as add_degreyseco %}
+            <a href="{% url 'add_speasial' %}" class="nav-link {% if request.path == add_speasial %} active {% endif %}">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                manage_session year
-                <span class="right badge badge-danger">New</span>
+                اضافة شعبة
               </p>
             </a>
           </li>
+            <li class="nav-item">
+            {% url 'add_classprem' as add_classprem %}
+            <a href="{% url 'add_classprem' %}" class="nav-link {% if request.path == add_classprem %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                اضافة قسم ابتدائي
+              </p>
+            </a>
+          </li>
+
+           <li class="nav-item">
+            {% url 'add_classmoyen' as add_classmoyen %}
+            <a href="{% url 'add_classmoyen' %}" class="nav-link {% if request.path == add_classmoyen %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                اضافة قسم متوسط
+              </p>
+            </a>
+          </li>
+
+
+          <li class="nav-item">
+            {% url 'add_classsecond' as add_classsecond %}
+            <a href="{% url 'add_classsecond' %}" class="nav-link {% if request.path == add_classsecond %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                اضافة قسم ثانوي
+              </p>
+            </a>
+          </li>
+
+           <li class="nav-item">
+            {% url 'add_activte' as add_activte %}
+            <a href="{% url 'add_activte' %}" class="nav-link {% if request.path == add_activte %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                اضافة عنوان نشاط
+              </p>
+            </a>
+          </li>
+
+            <li class="nav-item">
+            {% url 'add_typefilemedia' as add_typefilemedia %}
+            <a href="{% url 'add_typefilemedia' %}" class="nav-link {% if request.path == add_typefilemedia %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                اضافة نوع الوثيقة الاعلامية
+              </p>
+            </a>
+          </li>
+
+
+
+
+
 
 
         </ul>

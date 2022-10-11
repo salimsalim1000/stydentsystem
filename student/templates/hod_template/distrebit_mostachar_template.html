@@ -1,0 +1,413 @@
+{% extends 'hod_template/base_template.html' %}
+{% block page_title %}
+توزيع المستشارين
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+
+              <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">الثانويات</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                  <i class="fas fa-minus"></i></button>
+              </div>
+            </div>
+            <div class="card-body" >
+
+                    <form class="form-group" role="form" action="/distribit_save" method="post">
+                  {% csrf_token %}
+
+              <!-- /.card-header -->
+              <div class="card-body" >
+
+              <select class="form-control" name="mostacharid" style="margin-bottom: 15px">
+                    {% for mostachar in  mostachars %}
+                            <option value="{{ mostachar.id }}">{{ mostachar.withuser.first_name }} {{ mostachar.withuser.last_name }} </option>
+                    {% endfor %}
+              </select>
+
+                  <div class="card card-warning">
+                      <div class="card-header">
+                        <h3 class="card-title">الثانويات</h3>
+                      </div>
+              <!-- /.card-header -->
+             <div class="card-body" >
+
+                  <!-- input states -->
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- checkbox -->
+                      <div class="form-group">
+
+                        {% for seconray in seconrays %}
+                           <div class="form-check">
+                              <input class="form-check-input" name="checkcompany" type="checkbox" value="{{ seconray.id }}">
+                              <label class="form-check-label">{{ seconray.name }}</label>
+                          </div>
+                        {% endfor %}
+
+                      </div>
+                    </div>
+
+                  </div>
+
+
+
+
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+
+                      <div class="form-group">
+
+                    </div>
+
+
+
+              <!-- /.card-body -->
+
+
+
+
+                      <div class="form-group">
+                      {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary btn-block">Add Staff</button>
+                </div>
+              </form>
+            </div>
+
+            </div>
+            <!-- /.card-body -->
+          </div>
+
+
+
+                  </div>
+
+
+
+
+
+              </div>
+              <!-- /.card-body -->
+
+
+
+
+
+              <!-- /.card-body -->
+
+
+
+
+
+
+                <!-- /.card-body -->
+
+
+            <!-- /.card -->
+
+
+
+
+    </section>
+    <!-- /.content -->
+
+        <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+
+              <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">المتوسطات</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                  <i class="fas fa-minus"></i></button>
+              </div>
+            </div>
+            <div class="card-body" >
+
+                    <form class="form-group" role="form" action="/distribitmoyen_save" method="post">
+                  {% csrf_token %}
+
+              <!-- /.card-header -->
+              <div class="card-body" >
+
+              <select class="form-control" name="mostacharmoyenid" style="margin-bottom: 15px">
+                    {% for mostachar in  mostachars %}
+                            <option value="{{ mostachar.id }}">{{ mostachar.withuser.first_name }} {{ mostachar.withuser.last_name }} </option>
+                    {% endfor %}
+              </select>
+
+                  <div class="card card-warning">
+                      <div class="card-header">
+                        <h3 class="card-title">المتوسطات</h3>
+                      </div>
+              <!-- /.card-header -->
+             <div class="card-body" >
+
+                  <!-- input states -->
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- checkbox -->
+                      <div class="form-group">
+
+                        {% for moyen in moyens %}
+                           <div class="form-check">
+                              <input class="form-check-input" name="checkcompanymoyen" type="checkbox" value="{{ moyen.id }}">
+                              <label class="form-check-label">{{ moyen.name }}</label>
+                          </div>
+                        {% endfor %}
+
+                      </div>
+                    </div>
+
+                  </div>
+
+
+
+
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+
+                      <div class="form-group">
+
+                    </div>
+
+
+
+              <!-- /.card-body -->
+
+
+
+
+                      <div class="form-group">
+                      {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary btn-block">Add Staff</button>
+                </div>
+              </form>
+            </div>
+
+            </div>
+            <!-- /.card-body -->
+          </div>
+
+
+
+                  </div>
+
+
+
+
+
+              </div>
+              <!-- /.card-body -->
+
+
+
+
+
+              <!-- /.card-body -->
+
+
+
+
+
+
+                <!-- /.card-body -->
+
+
+            <!-- /.card -->
+
+
+
+
+    </section>
+    <!-- /.content -->
+
+
+
+            <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+
+              <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">الابتدائيات</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                  <i class="fas fa-minus"></i></button>
+              </div>
+            </div>
+            <div class="card-body" >
+
+                    <form class="form-group" role="form" action="/distribitprimer_save" method="post">
+                  {% csrf_token %}
+
+              <!-- /.card-header -->
+              <div class="card-body" >
+
+              <select class="form-control" name="mostacharprimerid" style="margin-bottom: 15px">
+                    {% for mostachar in  mostachars %}
+                            <option value="{{ mostachar.id }}">{{ mostachar.withuser.first_name }} {{ mostachar.withuser.last_name }} </option>
+                    {% endfor %}
+              </select>
+
+                  <div class="card card-warning">
+                      <div class="card-header">
+                        <h3 class="card-title">الابتدائيات</h3>
+                      </div>
+              <!-- /.card-header -->
+             <div class="card-body" >
+
+                  <!-- input states -->
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- checkbox -->
+                      <div class="form-group">
+
+                        {% for primary in primarys %}
+                           <div class="form-check">
+                              <input class="form-check-input" name="checkcompanyprem" type="checkbox" value="{{ primary.id }}">
+                              <label class="form-check-label">{{ primary.name }}</label>
+                          </div>
+                        {% endfor %}
+
+                      </div>
+                    </div>
+
+                  </div>
+
+
+
+
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+
+                      <div class="form-group">
+
+                    </div>
+
+
+
+              <!-- /.card-body -->
+
+
+
+
+                      <div class="form-group">
+                      {% if messages %}
+                        {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                        <div class="alert alert-danger" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == 'success' %}
+                        <div class="alert alert-success" style="margin-top:10px">{{ message }}</div>
+                        {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary btn-block">Add Staff</button>
+                </div>
+              </form>
+            </div>
+
+            </div>
+            <!-- /.card-body -->
+          </div>
+
+
+
+                  </div>
+
+
+
+
+
+              </div>
+              <!-- /.card-body -->
+
+
+
+
+
+              <!-- /.card-body -->
+
+
+
+
+
+
+                <!-- /.card-body -->
+
+
+            <!-- /.card -->
+
+
+
+
+    </section>
+    <!-- /.content -->
+{% endblock main_content %}
+
+{% block custom_js %}
+
+{% endblock custom_js %}

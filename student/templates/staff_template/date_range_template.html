@@ -1,0 +1,1241 @@
+{% extends 'staff_template/base_template.html' %}
+    {% load static %}
+{% block page_title %}
+تجميع النشاطات
+{% endblock page_title %}
+{% block main_content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">تجميع النشاطات</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="/date_range_all_get" method="get">
+
+                <div class="card-body">
+                  <div class="form-group">
+                      <div class="row">
+    <div class="col-md-5 ">
+       <label style="text-align: center; display: block;"> الى </label>
+       <input class="form-control col-md-12" type="date" name="primary2" id="primary2" value="{{primary2|date:'Y-m-d'}}" >
+    </div>
+    <div class="col-md-5">
+        <label style="text-align: center; display: block;"> من </label>
+        <input class="form-control col-md-12" type="date" name="primary1" id="primary1" value="{{primary1|date:'Y-m-d'}}" >
+    </div>
+      <div class="col-md-2" >
+
+          <button type="submit" style="
+    margin: auto;
+    width: 100%;
+    padding: 1px;
+    text-align: center;
+    margin-top: 30px;" class="form-control col-md-12" name="primary">بحث </button>
+      </div>
+</div>
+
+
+                  </div>
+
+
+                </div>
+                <!-- /.card-body -->
+
+              </form>
+            </div>
+            <!-- /.card -->
+
+
+
+          </div>
+          </div>
+      </div>
+    </section>
+    <!-- /.content -->
+
+
+
+
+
+<section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">الاعلام</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body" style="display: block;">
+           <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+
+
+                <div class="row">
+            <div class="col-sm-12">
+        <!-- /.card-header -->
+
+             <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info" style="text-align:center;">
+                  <thead>
+
+                  <tr style="background-color: #bdbbbb">
+                              <th scope="col">الاجراء</th>
+                             <th scope="col">التاريخ</th>
+                              <th scope="col">الحصص المقدمة لفوج</th>
+                              <th scope="col">عدد الافواج</th>
+                              <th scope="col">المستوى</th>
+                             <th scope="col">المؤسسة</th>
+                         </tr>
+                  </thead>
+                     <tbody>
+
+
+
+
+                  {% for foor in mediasec %}
+
+
+                            <tr>
+                          <td colspan="1" ><button  style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger dangerilammedia" data-testid="{{ foor.id }}"  id="delmedsec-{{ foor.id }}">حذف</button><button  class="btn btn-sm btn-primary primaryilammedia" data-testid="{{ foor.id }}" style="width: 50%;box-sizing: border-box; display: none;" id="yesmediasec-{{ foor.id }}">نعم</button><button style="width: 50%;box-sizing: border-box; display: none" class="btn btn-sm btn-warning warningilammedia" data-testid="{{ foor.id }}"  id="canmediasec-{{ foor.id }}">الغاء</button></td>
+                                <td colspan="1" >{{ foor.date|safe }}</td>
+                            <td class="inputtest"  >{{ foor.nomberhisas|safe }}</td>
+                            <td colspan="1">{{ foor.degraycomany.nomberexist|safe }}</td>
+                            <td colspan="1">{{ foor.degraycomany|safe  }} - {{ foor.degraycomany.spesial|safe  }}</td>
+                            <td colspan="1">{{ foor.degraycomany.company|safe  }}</td>
+                              </tr>
+
+
+                      {% endfor %}
+
+
+
+
+                  {% for mediamo in mediamoy %}
+
+
+                            <tr>
+                             <td colspan="1" ><button  style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger dangerilammediamoy" data-testid="{{ mediamo.id }}"  id="delmedmoy-{{ mediamo.id }}">حذف</button><button  class="btn btn-sm btn-primary primaryilammediamoy" data-testid="{{ mediamo.id }}" style="width: 50%;box-sizing: border-box; display: none;" id="yesmediamoy-{{ mediamo.id }}">نعم</button><button style="width: 50%;box-sizing: border-box; display: none" class="btn btn-sm btn-warning warningilammediamoy" data-testid="{{ mediamo.id }}"  id="canmediamoy-{{ mediamo.id }}">الغاء</button></td>
+                            <td colspan="1" >{{ mediamo.date|safe }}</td>
+                            <td >{{ mediamo.nomberhisas|safe }}</td>
+                            <td colspan="1">{{ mediamo.withclass.nomberexist|safe }}</td>
+                            <td colspan="1">{{ mediamo.withclass.name|safe  }}</td>
+                            <td colspan="1">{{ mediamo.withclass.company|safe  }}</td>
+                              </tr>
+
+                      {% endfor %}
+
+                 {% for mediapr in mediapre %}
+
+
+                            <tr>
+                            <td colspan="1" ><button  style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger dangerilammediapre" data-testid="{{ mediapr.id }}"  id="delmedpre-{{ mediapr.id }}">حذف</button><button  class="btn btn-sm btn-primary primaryilammediapre" data-testid="{{ mediapr.id }}" style="width: 50%;box-sizing: border-box; display: none;" id="yesmediapre-{{ mediapr.id }}">نعم</button><button style="width: 50%;box-sizing: border-box; display: none" class="btn btn-sm btn-warning warningilammediapre" data-testid="{{ mediapr.id }}"  id="canmediapre-{{ mediapr.id }}">الغاء</button></td>
+                          <td colspan="1" >{{ mediapr.date|safe }}</td>
+                            <td >{{ mediapr.nomberhisas|safe }}</td>
+                            <td colspan="1">{{ mediapr.withclass.nomberexist|safe }}</td>
+                            <td colspan="1">{{ mediapr.withclass.name|safe  }}</td>
+                            <td colspan="1">{{ mediapr.withclass.company|safe  }}</td>
+                              </tr>
+
+                      {% endfor %}
+
+
+            </tbody>
+
+        </table>
+    </div>
+</div>
+            </div>
+</div>
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+ <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">المتابعة</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body" style="display: block;">
+            <div class="row">
+    <table class="table table-hover border" style="text-align: center;">
+                  <thead>
+                    <tr>
+                      <th scope="col">الاجراء</th>
+                       <th scope="col">التاريخ</th>
+                      <th scope="col">صحية</th>
+                      <th scope="col">نفسية</th>
+                      <th scope="col"> أسرية (إجتماعية )</th>
+                        <th scope="col">سلوكية</th>
+                        <th scope="col">دراسية</th>
+                         <th scope="col">المؤسسة</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+            {% for motaba in motabasec %}
+                    <tr>
+                       <td colspan="1" ><button  style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger dangermotasec" data-testid="{{ motaba.id }}"  id="delmotasec-{{ motaba.id }}">حذف</button><button  class="btn btn-sm btn-primary primarymotasec" data-testid="{{ motaba.id }}" style="width: 50%;box-sizing: border-box; display: none;" id="yesmotasec-{{ motaba.id }}">نعم</button><button style="width: 50%;box-sizing: border-box; display: none" class="btn btn-sm btn-warning warningmotasec" data-testid="{{ motaba.id }}"  id="canmotasec-{{ motaba.id }}">الغاء</button></td>
+                       <td colspan="1" class="align-middle border">{{ motaba.date|safe }}</td>
+                       <td class="border" id="helth" colspan="1"  >{{ motaba.healthy|safe }}</td>
+                       <td class="border" id="psychological"  colspan="1"  >{{ motaba.psychological|safe }}</td>
+                       <td class=" border" id="famlly"  colspan="1"  >{{ motaba.familial|safe }}</td>
+                       <td class="border" id="behaviorism"  colspan="1"  >{{ motaba.behaviorism|safe }}</td>
+                       <td class="border" id="study" colspan="1" > {{ motaba.study|safe }}</td>
+                       <td class="align-middle border">{{ motaba|safe }}</td>
+                    </tr>
+                {% endfor  %}
+
+                  {% for foo in  motabamoy %}
+                    <tr>
+                  <td colspan="1" ><button  style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger dangermotamoy" data-testid="{{ foo.id }}"  id="delmotamoy-{{ foo.id }}">حذف</button><button  class="btn btn-sm btn-primary primarymotamoy" data-testid="{{ foo.id }}" style="width: 50%;box-sizing: border-box; display: none;" id="yesmotamoy-{{ foo.id }}">نعم</button><button style="width: 50%;box-sizing: border-box; display: none" class="btn btn-sm btn-warning warningmotamoy" data-testid="{{ foo.id }}"  id="canmotamoy-{{ foo.id }}">الغاء</button></td>
+                        <td colspan="1" class="align-middle border">{{ foo.date|safe }}</td>
+                        <td class="align-middle border">{{ foo.healthy|safe }}</td>
+                        <td class="align-middle border">{{ foo.psychological|safe }}</td>
+                       <td class="align-middle border">{{ foo.familial|safe }}</td>
+                        <td class="align-middle border">{{ foo.behaviorism|safe }}</td>
+                        <td class="align-middle border">{{ foo.study|safe }}</td>
+                        <td class="align-middle border">{{ foo.withcompany|safe }}</td>
+                    </tr>
+                {% endfor %}
+                  </tbody>
+                </table>
+
+            </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+{% if listingcell %}
+
+
+  <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">تنصيب خلية الاصغاء</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+
+
+          <div class="card-body" style="display: block;">
+            <div class="row">
+
+                    <table class="table table-hover border" style="text-align: center;">
+                  <thead>
+                    <tr>
+
+                      <th scope="col">سبب عدم التنصيب</th>
+                      <th scope="col">التاريخ</th>
+                      <th scope="col">الحالة</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="align-middle">
+
+                      <th class="align-middle" scope="row">{{ listingcell.why|safe }}</th>
+                      <td class="align-middle" colspan="1" >{{ listingcell.date|safe }}</td>
+                      <td class="align-middle">{% if listingcell.stat|safe == "1" %}
+                               <span class="bg-green" style="padding: 5px;display: inline-block;border-radius: 4px;"> منصبة </span>
+                      {% else %}
+                        <span class="bg-red" style="padding: 5px;display: inline-block;border-radius: 4px;">  غير منصبة</span>
+                      {% endif %} </td>
+
+                    </tr>
+
+                  </tbody>
+                </table>
+
+            </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+{% endif %}
+    <!-- /.content -->
+
+{% if followcomit %}
+    <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">تنصيب لجان المتابعة</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+
+
+          <div class="card-body" style="display: block;">
+            <div class="row">
+
+                    <table class="table table-hover border" style="text-align: center;">
+                  <thead>
+                    <tr>
+
+                      <th scope="col">سبب عدم التنصيب</th>
+                      <th scope="col">التاريخ</th>
+                      <th scope="col">الحالة</th>
+                      <th scope="col">المؤسسة</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for followcomits in followcomit %}
+
+                    <tr class="align-middle">
+
+                      <th class="align-middle" scope="row">{{ followcomits.why|safe }}</th>
+                      <td class="align-middle" colspan="1" >{{ followcomits.date|safe }}</td>
+                      <td class="align-middle">{% if followcomits.stat|safe == "1" %}
+                         <span class="bg-green" style="padding: 5px;display: inline-block;border-radius: 4px;"> منصبة </span>
+                      {% else %}
+                        <span class="bg-red" style="padding: 5px;display: inline-block;border-radius: 4px;">  غير منصبة</span>
+                      {% endif %} </td>
+                     <td class="align-middle" colspan="1" >{{ followcomits.withcompany }}</td>
+                    </tr>
+                {% endfor %}
+                  </tbody>
+                </table>
+
+            </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+    {% endif %}
+    <!-- /.content -->
+
+    <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">اعلام الاولياء</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+
+
+          <div class="card-body" style="display: block;">
+            <div class="row">
+
+
+
+
+
+      <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+    <tbody>
+
+
+
+                        <tr style="background-color: #bdbbbb">
+                              <th scope="col">الاجراء</th>
+                            <th scope="col">نسبة الحظور</th>
+                             <th scope="col">التاريخ</th>
+                              <th scope="col">عدد الحاضرون</th>
+                              <th scope="col">اجمالي الاستدعاءات</th>
+                              <th scope="col">عدد المسجلين</th>
+                            <th scope="col">المستوى</th>
+                         </tr>
+
+                  {% for foo in data %}
+                            <tr>
+                            <td colspan="1" ><button  style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger dangerilmparnt" data-testid="{{ foo.id }}"  id="delilmparnt-{{ foo.id }}">حذف</button><button  class="btn btn-sm btn-primary primaryilmparnt" data-testid="{{ foo.id }}" style="width: 50%;box-sizing: border-box; display: none;" id="yesilmparnt-{{ foo.id }}">نعم</button><button style="width: 50%;box-sizing: border-box; display: none" class="btn btn-sm btn-warning warningilmparnt" data-testid="{{ foo.id }}"  id="canilmparnt-{{ foo.id }}">الغاء</button></td>
+                            <td colspan="1" >{{ foo.persontage|safe }} %</td>
+                            <td colspan="1" > {{ foo.date|safe }}  </td>
+                            <td colspan="1"  >{{ foo.nomberhodor|safe  }}</td>
+                            <td colspan="1"  >{{ foo.nomberesteda|safe  }}</td>
+                            <td colspan="1">{{ foo.nomberetude|safe  }}</td>
+                            <td colspan="1">{{ foo.withdegrey__name|safe  }}</td>
+                            </tr>
+
+                   {% endfor %}
+
+  </tbody>
+      </table>
+ <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+          <tbody>
+
+
+
+                        <tr style="background-color: #efbc0d">
+                              <th scope="col">الاجراء</th>
+                            <th scope="col">نسبة الحظور</th>
+                             <th scope="col">التاريخ</th>
+                              <th scope="col">عدد الحاضرون</th>
+                              <th scope="col">اجمالي الاستدعاءات</th>
+                              <th scope="col">عدد المسجلين</th>
+                            <th scope="col">المستوى</th>
+                            <th scope="col">المؤسسة</th>
+                         </tr>
+
+                  {% for foor in mediamoyparnt %}
+
+                            <tr>
+                         <td colspan="1" ><button  style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger dangerilmparntmoy" data-testid="{{ foor.id }}"  id="delilmparntmoy-{{ foor.id }}">حذف</button><button  class="btn btn-sm btn-primary primaryilmparntmoy" data-testid="{{ foor.id }}" style="width: 50%;box-sizing: border-box; display: none;" id="yesilmparntmoy-{{ foor.id }}">نعم</button><button style="width: 50%;box-sizing: border-box; display: none" class="btn btn-sm btn-warning warningilmparntmoy" data-testid="{{ foor.id }}"  id="canilmparntmoy-{{ foor.id }}">الغاء</button></td>
+                            <td colspan="1" >{{ foor.persontage|safe }} %</td>
+                            <td colspan="1" > {{ foor.date|safe }}  </td>
+                            <td colspan="1"  >{{ foor.nomberhodor|safe  }}</td>
+                            <td colspan="1"  >{{ foor.nomberesteda|safe  }}</td>
+                            <td colspan="1">{{ foor.withdegry.nomberetud|safe }}</td>
+                            <td colspan="1">{{ foor.withdegry|safe }}</td>
+                            <td colspan="1">{{ foor.withcompany|safe  }}</td>
+                            </tr>
+
+                   {% endfor %}
+
+  </tbody>
+</table>
+
+
+ <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+          <tbody>
+
+
+
+                        <tr style="background-color: #6cb0ee">
+                              <th scope="col">الاجراء</th>
+                            <th scope="col">نسبة الحظور</th>
+                             <th scope="col">التاريخ</th>
+                              <th scope="col">عدد الحاضرون</th>
+                              <th scope="col">اجمالي الاستدعاءات</th>
+                              <th scope="col">عدد المسجلين</th>
+                            <th scope="col">المستوى</th>
+                            <th scope="col">المؤسسة</th>
+                         </tr>
+
+                  {% for foor in dataprem %}
+
+                            <tr>
+                            <td colspan="1" ><button  style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger dangerilmparntpre" data-testid="{{ foor.id }}"  id="delilmparntpre-{{ foor.id }}">حذف</button><button  class="btn btn-sm btn-primary primaryilmparntpre" data-testid="{{ foor.id }}" style="width: 50%;box-sizing: border-box; display: none;" id="yesilmparntpre-{{ foor.id }}">نعم</button><button style="width: 50%;box-sizing: border-box; display: none" class="btn btn-sm btn-warning warningilmparntpre" data-testid="{{ foor.id }}"  id="canilmparntpre-{{ foor.id }}">الغاء</button></td>
+                            <td colspan="1" >{{ foor.persontage|safe }} %</td>
+                            <td colspan="1" > {{ foor.date|safe }}  </td>
+                            <td colspan="1"  >{{ foor.nomberhodor|safe  }}</td>
+                            <td colspan="1"  >{{ foor.nomberesteda|safe  }}</td>
+                            <td colspan="1">{{ foor.withdegry.nomberetud|safe }}</td>
+                            <td colspan="1">{{ foor.withdegry|safe  }}</td>
+                            <td colspan="1">{{ foor.withcompany|safe  }}</td>
+                            </tr>
+
+                   {% endfor %}
+
+  </tbody>
+</table>
+
+
+           </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+
+    <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">الوثائق الاعلامية</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+
+
+          <div class="card-body" style="display: block;">
+            <div class="row">
+
+
+
+
+
+      <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+    <tbody>
+
+
+
+                        <tr style="background-color: #bdbbbb">
+                              <th scope="col">الاجراء</th>
+                             <th scope="col">التاريخ</th>
+                              <th scope="col">عنوان الوثيقة</th>
+                              <th scope="col">نوع الوثيقة</th>
+                            <th scope="col">المستوى</th>
+                         </tr>
+
+                  {% for foor in filemediasec %}
+
+                            <tr>
+                         <td colspan="1" ><button  style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger dangerfilemedia" data-testid="{{ foor.id }}"  id="delfilemedia-{{ foor.id }}">حذف</button><button  class="btn btn-sm btn-primary primaryfilemedia" data-testid="{{ foor.id }}" style="width: 50%;box-sizing: border-box; display: none;" id="yesfilemedia-{{ foor.id }}">نعم</button><button style="width: 50%;box-sizing: border-box; display: none" class="btn btn-sm btn-warning warningfilemedia" data-testid="{{ foor.id }}"  id="canfilemedia-{{ foor.id }}">الغاء</button></td>
+
+                            <td colspan="1" > {{ foor.date|safe }}  </td>
+                            <td colspan="1"  >{{ foor.titel|safe }}</td>
+                            <td colspan="1">{{ foor.type|safe  }}</td>
+                            <td colspan="1">{{ foor.withdegry|safe  }}</td>
+                            </tr>
+
+                        {% endfor %}
+
+  </tbody>
+      </table>
+ <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+          <tbody>
+
+
+
+                        <tr style="background-color: #efbc0d">
+                             <th scope="col">الاجراء</th>
+                             <th scope="col">التاريخ</th>
+                              <th scope="col">عنوان الوثيقة</th>
+                              <th scope="col">نوع الوثيقة</th>
+                            <th scope="col">المستوى</th>
+                            <th scope="col">المؤسسة</th>
+                         </tr>
+
+                  {% for foor in filemediamoy %}
+
+                            <tr>
+                        <td colspan="1" ><button  style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger dangerfilemediamoy" data-testid="{{ foor.id }}"  id="delfilemediamoy-{{ foor.id }}">حذف</button><button  class="btn btn-sm btn-primary primaryfilemediamoy" data-testid="{{ foor.id }}" style="width: 50%;box-sizing: border-box; display: none;" id="yesfilemediamoy-{{ foor.id }}">نعم</button><button style="width: 50%;box-sizing: border-box; display: none" class="btn btn-sm btn-warning warningfilemediamoy" data-testid="{{ foor.id }}"  id="canfilemediamoy-{{ foor.id }}">الغاء</button></td>
+                            <td colspan="1" > {{ foor.date|safe }}  </td>
+                            <td colspan="1"  >{{ foor.titel|safe  }}</td>
+                            <td colspan="1">{{ foor.type|safe }}</td>
+                            <td colspan="1">{{ foor.withdegry|safe }}</td>
+                            <td colspan="1">{{ foor.withcompany|safe  }}</td>
+                            </tr>
+
+                   {% endfor %}
+
+  </tbody>
+</table>
+
+
+
+
+
+           </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+
+
+       <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-default">
+          <div class="card-header">
+            <h3 class="card-title">نشاطات اخرى</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+
+            </div>
+          </div>
+          <!-- /.card-header -->
+
+
+          <div class="card-body" style="display: block;">
+            <div class="row">
+
+
+
+
+
+      <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+    <tbody>
+
+
+
+                        <tr style="background-color: #bdbbbb">
+                              <th scope="col">الاجراء</th>
+                             <th scope="col">التاريخ</th>
+                            <th scope="col">ملاحظة</th>
+                              <th scope="col">النشاط المنجز</th>
+
+                         </tr>
+
+                  {% for foor in otheractivesec %}
+
+                            <tr>
+                           <td colspan="1" ><button  style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger otheractdanger" data-testid="{{ foor.id }}"  id="delotheract-{{ foor.id }}">حذف</button><button  class="btn btn-sm btn-primary otheractprimary" data-testid="{{ foor.id }}" style="width: 50%;box-sizing: border-box; display: none;" id="yesotheract-{{ foor.id }}">نعم</button><button style="width: 50%;box-sizing: border-box; display: none" class="btn btn-sm btn-warning otheractwarning" data-testid="{{ foor.id }}"  id="canotheract-{{ foor.id }}">الغاء</button></td>
+
+                            <td colspan="1">{{ foor.date|safe  }}</td>
+                                <td colspan="1">{{ foor.note|safe  }}</td>
+                            <td colspan="1">{{ foor.name|safe  }}</td>
+                            </tr>
+
+                        {% endfor %}
+
+  </tbody>
+      </table>
+ <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+          <tbody>
+
+
+
+                        <tr style="background-color: #efbc0d">
+                             <th scope="col">الاجراء</th>
+                             <th scope="col">التاريخ</th>
+                            <th scope="col">ملاحظة</th>
+                              <th scope="col">النشاط المنجز</th>
+                            <th scope="col">المؤسسة</th>
+                         </tr>
+
+                  {% for foor in otheractivemoy %}
+
+                            <tr>
+                            <td colspan="1" ><button  style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger otheractdanger" data-testid="{{ foor.id }}"  id="delotheract-{{ foor.id }}">حذف</button><button  class="btn btn-sm btn-primary otheractprimary" data-testid="{{ foor.id }}" style="width: 50%;box-sizing: border-box; display: none;" id="yesotheract-{{ foor.id }}">نعم</button><button style="width: 50%;box-sizing: border-box; display: none" class="btn btn-sm btn-warning otheractwarning" data-testid="{{ foor.id }}"  id="canotheract-{{ foor.id }}">الغاء</button></td>
+                             <td colspan="1">{{ foor.date|safe  }}</td>
+                            <td colspan="1">{{ foor.note|safe  }}</td>
+                            <td colspan="1">{{ foor.name|safe  }}</td>
+                            <td colspan="1">{{ foor.withcompany2|safe  }}</td>
+                            </tr>
+
+                   {% endfor %}
+
+  </tbody>
+</table>
+
+
+ <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+          <tbody>
+
+
+
+                        <tr style="background-color: #6cb0ee">
+                            <th scope="col">الاجراء</th>
+                             <th scope="col">التاريخ</th>
+                            <th scope="col">ملاحظة</th>
+                              <th scope="col">النشاط المنجز</th>
+                            <th scope="col">المؤسسة</th>
+                         </tr>
+
+                  {% for foor in otheractiveprem %}
+
+                            <tr>
+                           <td colspan="1" ><button  style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger otheractdanger" data-testid="{{ foor.id }}"  id="delotheract-{{ foor.id }}">حذف</button><button  class="btn btn-sm btn-primary otheractprimary" data-testid="{{ foor.id }}" style="width: 50%;box-sizing: border-box; display: none;" id="yesotheract-{{ foor.id }}">نعم</button><button style="width: 50%;box-sizing: border-box; display: none" class="btn btn-sm btn-warning otheractwarning" data-testid="{{ foor.id }}"  id="canotheract-{{ foor.id }}">الغاء</button></td>
+                              <td colspan="1">{{ foor.date|safe  }}</td>
+                            <td colspan="1">{{ foor.note|safe  }}</td>
+                            <td colspan="1">{{ foor.name|safe  }}</td>
+                            <td colspan="1">{{ foor.withcompany3|safe  }}</td>
+                            </tr>
+
+                   {% endfor %}
+
+  </tbody>
+</table>
+
+
+
+
+             <table class="table table-bordered align-content-center" style="text-align:center;">
+                  <thead>
+
+                  </thead>
+          <tbody>
+
+
+
+                        <tr style="background-color: #9eee6c">
+                            <th scope="col">الاجراء</th>
+                             <th scope="col">التاريخ</th>
+                            <th scope="col">ملاحظة</th>
+                              <th scope="col">النشاط المنجز</th>
+
+                         </tr>
+
+                  {% for foor in otheract %}
+
+                            <tr>
+                            <td colspan="1" ><button  style="width: 100%;box-sizing: border-box;" class="btn btn-sm btn-danger otheractdanger" data-testid="{{ foor.id }}"  id="delotheract-{{ foor.id }}">حذف</button><button  class="btn btn-sm btn-primary otheractprimary" data-testid="{{ foor.id }}" style="width: 50%;box-sizing: border-box; display: none;" id="yesotheract-{{ foor.id }}">نعم</button><button style="width: 50%;box-sizing: border-box; display: none" class="btn btn-sm btn-warning otheractwarning" data-testid="{{ foor.id }}"  id="canotheract-{{ foor.id }}">الغاء</button></td>
+                            <td colspan="1">{{ foor.date|safe  }}</td>
+                            <td colspan="1">{{ foor.note|safe  }}</td>
+                            <td colspan="1">{{ foor.name|safe  }}</td>
+
+                            </tr>
+
+                   {% endfor %}
+
+  </tbody>
+</table>
+
+           </div>
+
+            </div>
+
+   </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+
+{% endblock main_content %}
+
+
+{% block custom_js %}
+
+        <!-- AdminLTE for demo purposes -->
+<script src="{% static "plugins/datatables/jquery.dataTables.js" %}"></script>
+<script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.js" %}"></script>
+<script>
+$(document).ready(function(){
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true,
+
+    });
+
+  });
+
+
+    // الاعلام الثانوي:
+
+    $(".dangerilammedia").click(function (event) {
+            event.preventDefault();
+            var iddd = $(this).data('testid')
+
+           $(`#yesmediasec-${iddd}`).show()
+           $(`#canmediasec-${iddd}`).show()
+           $(this).hide()
+
+
+        })
+    $(".warningilammedia").click(function (event) {
+            event.preventDefault();
+            var idd = $(this).data('testid')
+
+           $(`#yesmediasec-${idd}`).hide()
+           $(`#delmedsec-${idd}`).show()
+           $(this).hide()
+
+
+        })
+
+      $(".primaryilammedia").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+
+
+            $.ajax({
+                url:'{% url 'delete_mediasec' %}',
+                type:'POST',
+                data:{id:id},
+            })
+            .done(function(response){
+                    var table = $('#example1').DataTable();
+                    table.row($(`#yesmediasec-${id}`).closest('tr')).remove( ).draw();
+            })
+            .fail(function(){
+                alert("خطأ لم يتم الحذف")
+            });
+        })
+
+
+
+    // الاعلام المتوسط:
+
+    $(".dangerilammediamoy").click(function (event) {
+            event.preventDefault();
+            var iddd = $(this).data('testid')
+
+           $(`#yesmediamoy-${iddd}`).show()
+           $(`#canmediamoy-${iddd}`).show()
+           $(this).hide()
+
+
+        })
+    $(".warningilammediamoy").click(function (event) {
+            event.preventDefault();
+            var idd = $(this).data('testid')
+
+           $(`#yesmediamoy-${idd}`).hide()
+           $(`#delmedmoy-${idd}`).show()
+           $(this).hide()
+
+
+        })
+
+      $(".primaryilammediamoy").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+
+
+            $.ajax({
+                url:'{% url 'delete_mediamoy' %}',
+                type:'POST',
+                data:{id:id},
+            })
+            .done(function(response){
+                    var table = $('#example1').DataTable();
+                    table.row($(`#yesmediamoy-${id}`).closest('tr')).remove( ).draw();
+            })
+            .fail(function(){
+                alert("خطأ لم يتم الحذف")
+            });
+        })
+
+
+     // الاعلام الابتدائي:
+
+    $(".dangerilammediapre").click(function (event) {
+            event.preventDefault();
+            var iddd = $(this).data('testid')
+
+           $(`#yesmediapre-${iddd}`).show()
+           $(`#canmediapre-${iddd}`).show()
+           $(this).hide()
+
+
+        })
+    $(".warningilammediapre").click(function (event) {
+            event.preventDefault();
+            var idd = $(this).data('testid')
+
+           $(`#yesmediapre-${idd}`).hide()
+           $(`#delmedpre-${idd}`).show()
+           $(this).hide()
+
+
+        })
+
+      $(".primaryilammediapre").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+
+
+            $.ajax({
+                url:'{% url 'delete_mediapre' %}',
+                type:'POST',
+                data:{id:id},
+            })
+            .done(function(response){
+                    var table = $('#example1').DataTable();
+                    table.row($(`#yesmediapre-${id}`).closest('tr')).remove( ).draw();
+            })
+            .fail(function(){
+                alert("خطأ لم يتم الحذف")
+            });
+        })
+
+
+
+
+
+     // المتابعة ثانوي:
+
+    $(".dangermotasec").click(function (event) {
+            event.preventDefault();
+            var iddd = $(this).data('testid')
+
+           $(`#yesmotasec-${iddd}`).show()
+           $(`#canmotasec-${iddd}`).show()
+           $(this).hide()
+
+
+        })
+    $(".warningmotasec").click(function (event) {
+            event.preventDefault();
+            var idd = $(this).data('testid')
+
+           $(`#yesmotasec-${idd}`).hide()
+           $(`#delmotasec-${idd}`).show()
+           $(this).hide()
+
+
+        })
+
+      $(".primarymotasec").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+
+
+            $.ajax({
+                url:'{% url 'delete_motabasec' %}',
+                type:'POST',
+                data:{id:id},
+            })
+            .done(function(response){
+                   $(`#yesmotasec-${id}`).closest('tr').remove()
+            })
+            .fail(function(){
+                alert("خطأ لم يتم الحذف")
+            });
+        })
+
+
+
+     // المتابعة متوسط:
+
+    $(".dangermotamoy").click(function (event) {
+            event.preventDefault();
+            var iddd = $(this).data('testid')
+
+           $(`#yesmotamoy-${iddd}`).show()
+           $(`#canmotamoy-${iddd}`).show()
+           $(this).hide()
+
+
+        })
+    $(".warningmotamoy").click(function (event) {
+            event.preventDefault();
+            var idd = $(this).data('testid')
+
+           $(`#yesmotamoy-${idd}`).hide()
+           $(`#delmotamoy-${idd}`).show()
+           $(this).hide()
+
+
+        })
+
+      $(".primarymotamoy").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+
+
+            $.ajax({
+                url:'{% url 'delete_motabamoy' %}',
+                type:'POST',
+                data:{id:id},
+            })
+            .done(function(response){
+                   $(`#yesmotamoy-${id}`).closest('tr').remove()
+            })
+            .fail(function(){
+                alert("خطأ لم يتم الحذف")
+            });
+        })
+
+
+
+     // اعلام الاولياء ثانوي
+
+    $(".dangerilmparnt").click(function (event) {
+            event.preventDefault();
+            var iddd = $(this).data('testid')
+
+           $(`#yesilmparnt-${iddd}`).show()
+           $(`#canilmparnt-${iddd}`).show()
+           $(this).hide()
+
+
+        })
+    $(".warningilmparnt").click(function (event) {
+            event.preventDefault();
+            var idd = $(this).data('testid')
+
+           $(`#yesilmparnt-${idd}`).hide()
+           $(`#delilmparnt-${idd}`).show()
+           $(this).hide()
+
+
+        })
+
+      $(".primaryilmparnt").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+
+
+            $.ajax({
+                url:'{% url 'delete_ilmparnt' %}',
+                type:'POST',
+                data:{id:id},
+            })
+            .done(function(response){
+                   $(`#yesilmparnt-${id}`).closest('tr').remove()
+            })
+            .fail(function(){
+                alert("خطأ لم يتم الحذف")
+            });
+        })
+
+
+
+     // اعلام الاولياء متوسط
+
+    $(".dangerilmparntmoy").click(function (event) {
+            event.preventDefault();
+            var iddd = $(this).data('testid')
+
+           $(`#yesilmparntmoy-${iddd}`).show()
+           $(`#canilmparntmoy-${iddd}`).show()
+           $(this).hide()
+
+
+        })
+    $(".warningilmparntmoy").click(function (event) {
+            event.preventDefault();
+            var idd = $(this).data('testid')
+
+           $(`#yesilmparntmoy-${idd}`).hide()
+           $(`#delilmparntmoy-${idd}`).show()
+           $(this).hide()
+
+
+        })
+
+      $(".primaryilmparntmoy").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+
+
+            $.ajax({
+                url:'{% url 'delete_ilmparntmoy' %}',
+                type:'POST',
+                data:{id:id},
+            })
+            .done(function(response){
+                   $(`#yesilmparntmoy-${id}`).closest('tr').remove()
+            })
+            .fail(function(){
+                alert("خطأ لم يتم الحذف")
+            });
+        })
+
+     // اعلام الاولياء ابتدائي
+
+    $(".dangerilmparntpre").click(function (event) {
+            event.preventDefault();
+            var iddd = $(this).data('testid')
+
+           $(`#yesilmparntpre-${iddd}`).show()
+           $(`#canilmparntpre-${iddd}`).show()
+           $(this).hide()
+
+
+        })
+    $(".warningilmparntpre").click(function (event) {
+            event.preventDefault();
+            var idd = $(this).data('testid')
+
+           $(`#yesilmparntpre-${idd}`).hide()
+           $(`#delilmparntpre-${idd}`).show()
+           $(this).hide()
+
+
+        })
+
+      $(".primaryilmparntpre").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+
+
+            $.ajax({
+                url:'{% url 'delete_ilmparntpre' %}',
+                type:'POST',
+                data:{id:id},
+            })
+            .done(function(response){
+                   $(`#yesilmparntpre-${id}`).closest('tr').remove()
+            })
+            .fail(function(){
+                alert("خطأ لم يتم الحذف")
+            });
+        })
+
+
+
+
+     // الوثائق الاعلامية الثانوي
+
+    $(".dangerfilemedia").click(function (event) {
+            event.preventDefault();
+            var iddd = $(this).data('testid')
+
+           $(`#yesfilemedia-${iddd}`).show()
+           $(`#canfilemedia-${iddd}`).show()
+           $(this).hide()
+
+
+        })
+    $(".warningfilemedia").click(function (event) {
+            event.preventDefault();
+            var idd = $(this).data('testid')
+
+           $(`#yesfilemedia-${idd}`).hide()
+           $(`#delfilemedia-${idd}`).show()
+           $(this).hide()
+
+
+        })
+
+      $(".primaryfilemedia").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+
+
+            $.ajax({
+                url:'{% url 'delete_filemedia' %}',
+                type:'POST',
+                data:{id:id},
+            })
+            .done(function(response){
+                   $(`#yesfilemedia-${id}`).closest('tr').remove()
+            })
+            .fail(function(){
+                alert("خطأ لم يتم الحذف")
+            });
+        })
+
+
+     // الوثائق الاعلامية المتوسط
+
+    $(".dangerfilemediamoy").click(function (event) {
+            event.preventDefault();
+            var iddd = $(this).data('testid')
+
+           $(`#yesfilemediamoy-${iddd}`).show()
+           $(`#canfilemediamoy-${iddd}`).show()
+           $(this).hide()
+
+
+        })
+    $(".warningfilemediamoy").click(function (event) {
+            event.preventDefault();
+            var idd = $(this).data('testid')
+
+           $(`#yesfilemediamoy-${idd}`).hide()
+           $(`#delfilemediamoy-${idd}`).show()
+           $(this).hide()
+
+
+        })
+
+      $(".primaryfilemediamoy").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+
+
+            $.ajax({
+                url:'{% url 'delete_filemediamoy' %}',
+                type:'POST',
+                data:{id:id},
+            })
+            .done(function(response){
+                   $(`#yesfilemediamoy-${id}`).closest('tr').remove()
+            })
+            .fail(function(){
+                alert("خطأ لم يتم الحذف")
+            });
+        })
+
+
+
+  // for other activite pre sec moy and other:
+
+    $(".otheractdanger").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+
+           $(`#yesotheract-${id}`).show()
+           $(`#canotheract-${id}`).show()
+           $(this).hide()
+
+
+        })
+    $(".otheractwarning").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+
+           $(`#yesotheract-${id}`).hide()
+           $(`#delotheract-${id}`).show()
+           $(this).hide()
+
+
+        })
+
+      $(".otheractprimary").click(function (event) {
+            event.preventDefault();
+            var id = $(this).data('testid')
+
+
+            $.ajax({
+                url:'{% url 'delete_otheract' %}',
+                type:'POST',
+                data:{id:id},
+            })
+            .done(function(response){
+
+                $(`#delotheract-${id}`).closest("tr").remove()
+            })
+            .fail(function(){
+                alert("خطأ لم يتم الحذف")
+            });
+        })
+
+
+})
+</script>
+{% endblock custom_js %}

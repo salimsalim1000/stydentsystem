@@ -1,18 +1,33 @@
-import datetime
-import json
 
+import json
+from builtins import id
+from datetime import datetime
+from decimal import Decimal
+from django.db.models import Q
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
+from django.db.models import Sum, F, FloatField, Count , ExpressionWrapper
+from django.db.models.functions import Cast
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
+
 from student import views
 from student.forms import AddStudentForm, EditStudentForm
 from student.models import CustomUser, Courses, Students, Staffs, Subjects, SessionYearModel, FeedBackStudent, \
-    FeedBackStaff, LeaveRaportStudent, LeaveRaportStaff, Attendance, AttendanceReport
+    FeedBackStaff, LeaveRaportStudent, LeaveRaportStaff, Attendance, AttendanceReport, Primary, Moyen, Secondary, \
+    DegreyMoyen, Degrey, DegreyPrem, Spesial, ClassPrimary, ClassMoyen, ClassSecondary, Mostachar, ActiviteName, \
+    TypeFileMedia, MediaSec, MediaMoy, MediaPre, MotabaSec, MotabaMoy, Followcommit, ListeningCells, MediaSecParnt, \
+    DegreyCompany, MediaMoyParnt, DegreyMoyenCompany, MediaPreParnt, DegreyPremCompany, FileMediaSec, FileMediaMoy, \
+    OtherActiv
+from django.db.models import Func
 
+
+class Round2(Func):
+    function = 'ROUND'
+    template='%(function)s(%(expressions)s, 2)'
 
 def admin_home(request):
     subjects_count = Subjects.objects.all().count()
@@ -33,10 +48,255 @@ def admin_home(request):
     context={'student_list':student_list,'subjects_list':subjects_list,'cours_list':cours_list,'subjects_count':subjects_count,'student_count':student_count,'course_count':course_count,'staff_count':staff_count}
     return render (request,template_name="hod_template/home_content.html",context=context)
 
-def add_staff(request):
-    return render(request,template_name="hod_template/add_staff_template.html")
 
-def add_staff_save(request):
+def add_premary(request):
+    premers = Primary.objects.all()
+    context={"premers":premers}
+    return render(request, template_name="hod_template/add_premary_template.html",context=context)
+
+def add_premary_save(request):
+    if request.method != "POST" :
+        messages.error(request,"method not allow")
+        return HttpResponseRedirect(reverse("add_premary"))
+    else:
+
+        name = request.POST.get("name")
+        codeonec = request.POST.get("codeonec")
+        codelocal = request.POST.get("codelocal")
+        try:
+            primary_model = Primary.objects.create(name=name,codeonec=codeonec,codelocal=codelocal)
+            primary_model.save()
+            messages.success(request, "تم اضافة المؤسسة بنجاح")
+            return HttpResponseRedirect(reverse("add_premary"))
+        except:
+            messages.error(request, "error add cours")
+            return HttpResponseRedirect(reverse("add_premary"))
+
+def add_moyen(request):
+    premers = Moyen.objects.all()
+    context={"premers":premers}
+    return render(request, template_name="hod_template/add_moyen_template.html",context=context)
+
+def add_moyen_save(request):
+    if request.method != "POST" :
+        messages.error(request,"method not allow")
+        return HttpResponseRedirect(reverse("add_moyen"))
+    else:
+
+        name = request.POST.get("name")
+        codeonec = request.POST.get("codeonec")
+        codelocal = request.POST.get("codelocal")
+        try:
+            moyen_model = Moyen.objects.create(name=name,codeonec=codeonec,codelocal=codelocal)
+            moyen_model.save()
+            messages.success(request, "تم اضافة المؤسسة بنجاح")
+            return HttpResponseRedirect(reverse("add_moyen"))
+        except:
+            messages.error(request, "error add cours")
+            return HttpResponseRedirect(reverse("add_moyen"))
+
+def add_secondry(request):
+    premers = Secondary.objects.all()
+    context={"premers":premers}
+    return render(request, template_name="hod_template/add_secondry_template.html",context=context)
+
+def add_secondry_save(request):
+    if request.method != "POST" :
+        messages.error(request,"method not allow")
+        return HttpResponseRedirect(reverse("add_secondry"))
+    else:
+
+        name = request.POST.get("name")
+        codeonec = request.POST.get("codeonec")
+        codelocal = request.POST.get("codelocal")
+        try:
+            secondary_model = Secondary.objects.create(name=name,codeonec=codeonec,codelocal=codelocal)
+            secondary_model.save()
+            messages.success(request, "تم اضافة المؤسسة بنجاح")
+            return HttpResponseRedirect(reverse("add_secondry"))
+        except:
+            messages.error(request, "error add cours")
+            return HttpResponseRedirect(reverse("add_secondry"))
+
+def add_degreymoyen(request):
+    return render(request, template_name="hod_template/add_degreymoyen_template.html")
+
+def add_degreymoyen_save(request):
+    if request.method != "POST" :
+        messages.error(request,"method not allow")
+        return HttpResponseRedirect(reverse("add_degreymoyen"))
+    else:
+        name = request.POST.get("name")
+        try:
+            model = DegreyMoyen.objects.create(name=name)
+            model.save()
+            messages.success(request, "تم اضافة المستوى بنجاح")
+            return HttpResponseRedirect(reverse("add_degreymoyen"))
+        except:
+            messages.error(request, "error add cours")
+            return HttpResponseRedirect(reverse("add_degreymoyen"))
+
+
+def add_speasial(request):
+    degry = Degrey.objects.all()
+    context={'degry':degry}
+    return render(request, template_name="hod_template/add_spesial_template.html",context=context)
+
+def add_speasial_save(request):
+    if request.method != "POST" :
+        messages.error(request,"method not allow")
+        return HttpResponseRedirect(reverse("add_speasial"))
+    else:
+        name = request.POST.get("name")
+        degryid = request.POST.get("degry")
+        try:
+            degry = Degrey.objects.get(id=degryid)
+            model = Spesial.objects.create(name=name,degrey=degry)
+            model.save()
+            messages.success(request, "تم اضافة المستوى بنجاح")
+            return HttpResponseRedirect(reverse("add_speasial"))
+        except:
+            messages.error(request, "خطافي الاضافة")
+            return HttpResponseRedirect(reverse("add_speasial"))
+
+
+def add_degreypremglobal(request):
+    return render(request, template_name="hod_template/add_degrypremary_template.html")
+
+
+def add_degreypremglobal_save(request):
+    if request.method != "POST" :
+        messages.error(request,"method not allow")
+        return HttpResponseRedirect(reverse("add_degreypremglobal"))
+    else:
+        name = request.POST.get("name")
+        try:
+            model = DegreyPrem.objects.create(name=name)
+            model.save()
+            messages.success(request, "تم اضافة المستوى بنجاح")
+            return HttpResponseRedirect(reverse("add_degreypremglobal"))
+        except:
+            messages.error(request, "error add cours")
+            return HttpResponseRedirect(reverse("add_degreypremglobal"))
+
+def add_degreyseco(request):
+    return render(request, template_name="hod_template/add_degryseconder_template.html")
+
+def add_degreyseco_save(request):
+    if request.method != "POST" :
+        messages.error(request,"method not allow")
+        return HttpResponseRedirect(reverse("add_degreyseco"))
+    else:
+        name = request.POST.get("name")
+        try:
+            model = Degrey.objects.create(name=name)
+            model.save()
+            messages.success(request, "تم اضافة المستوى بنجاح")
+            return HttpResponseRedirect(reverse("add_degreyseco"))
+        except:
+            messages.error(request, "error add cours")
+            return HttpResponseRedirect(reverse("add_degreyseco"))
+
+def add_classprem(request):
+    degry = DegreyPrem.objects.all()
+    Primarys= Primary.objects.all()
+    context={"degry":degry,"Primarys":Primarys}
+    return render(request, template_name="hod_template/add_classpremary_template.html",context=context)
+
+def add_classprem_save(request):
+    if request.method != "POST" :
+        messages.error(request,"method not allow")
+        return HttpResponseRedirect(reverse("add_classprem"))
+    else:
+        primary = request.POST.get("primary")
+        idd = request.POST.get("degry")
+        name = request.POST.get("name")
+        numetud = request.POST.get("numetud")
+        numetudex = request.POST.get("numetudex")
+        femal = request.POST.get("femal")
+        reatrap = request.POST.get("reatrap")
+
+        try:
+            primarys = Primary.objects.get(id=primary)
+            degreyid = DegreyPrem.objects.get(id=idd)
+            modele = ClassPrimary.objects.create(withprimary=primarys,degrey=degreyid,name=name,nomberstudent=numetud,nomberstudexist=numetudex,nomberfemale=femal,repeater=reatrap)
+            modele.save()
+            messages.success(request, "تم اضافة القسم بنجاح")
+            return HttpResponseRedirect(reverse("add_classprem"))
+        except:
+            messages.error(request, "error add cours")
+            return HttpResponseRedirect(reverse("add_classprem"))
+
+
+
+def add_classmoyen(request):
+    degry = DegreyMoyen.objects.all()
+    primarys = Moyen.objects.all()
+    context={"degry":degry,"primarys":primarys}
+    return render(request, template_name="hod_template/add_classmoyen_template.html",context=context)
+
+def add_classmoyen_save(request):
+    if request.method != "POST" :
+        messages.error(request,"method not allow")
+        return HttpResponseRedirect(reverse("add_classprem"))
+    else:
+        primary = request.POST.get("primary")
+        idd = request.POST.get("degry")
+        name = request.POST.get("name")
+        numetud = request.POST.get("numetud")
+        numetudex = request.POST.get("numetudex")
+        femal = request.POST.get("femal")
+        reatrap = request.POST.get("reatrap")
+
+        try:
+            moyen = Moyen.objects.get(id=primary)
+            degreyid = DegreyMoyen.objects.get(id=idd)
+            modele = ClassMoyen.objects.create(withprimary=moyen,degrey=degreyid,name=name,nomberstudent=numetud,nomberstudexist=numetudex,nomberfemale=femal,repeater=reatrap)
+            modele.save()
+            messages.success(request, "تم اضافة القسم بنجاح")
+            return HttpResponseRedirect(reverse("add_classprem"))
+        except:
+            messages.error(request, "error add cours")
+            return HttpResponseRedirect(reverse("add_classprem"))
+
+def add_classsecond(request):
+    name = Secondary.objects.all()
+    degry = Degrey.objects.all()
+    spisialte = Spesial.objects.all()
+
+    context={"name":name,"degry":degry,"spisialte":spisialte}
+    return render(request, template_name="hod_template/add_classsecond_template.html",context=context)
+
+def add_classsecond_save(request):
+    if request.method != "POST" :
+        messages.error(request,"method not allow")
+        return HttpResponseRedirect(reverse("add_classsecond"))
+    else:
+        primary = request.POST.get("primary")
+        degry = request.POST.get("degry")
+        speisal = request.POST.get("speisal")
+        name = request.POST.get("name")
+        numetud = request.POST.get("numetud")
+        numetudex = request.POST.get("numetudex")
+        femal = request.POST.get("femal")
+        reatrap = request.POST.get("reatrap")
+        try:
+            degreyid = Degrey.objects.get(id=degry)
+            companyid = Secondary.objects.get(id=primary)
+            speisalid = Spesial.objects.get(id=speisal)
+            modele = ClassSecondary.objects.create(withprimary=companyid,degreye=degreyid,specialite=speisalid,name=name,nomberstudent=numetud,nomberstudexist=numetudex,nomberfemale=femal,repeater=reatrap)
+            modele.save()
+            messages.success(request, "تم اضافة القسم بنجاح")
+            return HttpResponseRedirect(reverse("add_classsecond"))
+        except:
+            messages.error(request, "error add cours")
+            return HttpResponseRedirect(reverse("add_classsecond"))
+
+
+def add_mostachar(request):
+    return render(request,template_name="hod_template/add_mostachar_template.html")
+
+def add_mostachar_save(request):
     if request.method != "POST":
         return HttpResponse("method not valid")
     else:
@@ -48,330 +308,543 @@ def add_staff_save(request):
         address = request.POST.get("address")
         try:
             user = CustomUser.objects.create_user(first_name= first_name ,last_name=last_name , username=username , email=email , password=password , user_type= 2 )
-            user.staffs.address = address
+            user.mostachar.address = address
             user.save()
-            messages.success(request,"success add staff")
-            return HttpResponseRedirect(reverse("add_staff"))
+            messages.success(request,"تم اضافة المستشار")
+            return HttpResponseRedirect(reverse("add_mostachar"))
         except:
-            messages.error(request, "error add staff")
-            return HttpResponseRedirect(reverse("add_staff"))
+            messages.error(request, "اسم المستخدم او البريد الالكتروني موجود بالفعل")
+            return HttpResponseRedirect(reverse("add_mostachar"))
 
+def manage_mostachar(request):
+    mostachars = Mostachar.objects.all()
+    context={'mostachars':mostachars}
+    return render(request, template_name="hod_template/manage_mostachar_template.html",context=context)
 
-def add_course(request):
-    return render(request, template_name="hod_template/add_course_template.html")
+def edit_mostachar(request , mostachar_id ):
+    mostachar = Mostachar.objects.get(withuser=mostachar_id)
+    context = {'mostachar': mostachar , 'staff_idd':mostachar_id}
+    return render(request, template_name="hod_template/edit_mostachar_template.html",context=context)
 
-def add_course_save(request):
+def edit_mostachar_save(request):
     if request.method != "POST" :
-        messages.error(request,"method not allow")
-        return HttpResponseRedirect(reverse("add_course"))
+        messages.error(request, "method not allow")
+
     else:
-        course = request.POST.get("course")
+        mostachar_id = request.POST.get("staff_id")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        address = request.POST.get("address")
         try:
-            course_model = Courses.objects.create(course_name=course)
-            course_model.save()
-            messages.success(request, "success add cours")
-            return HttpResponseRedirect(reverse("add_course"))
+
+            user = CustomUser.objects.get(id=mostachar_id)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.username = username
+            user.email = email
+
+            user.save()
+
+            mostachar_model = Mostachar.objects.get(withuser=mostachar_id)
+            mostachar_model.address = address
+            mostachar_model.save()
+            messages.success(request, "تم تعديل معلومات المستشار")
+            return HttpResponseRedirect(reverse("edit_mostachar", args=[mostachar_id]))
         except:
-            messages.error(request, "error add cours")
-            return HttpResponseRedirect(reverse("add_course"))
+
+            messages.error(request, "خطأ في تعديل المعلومات قد يكون اسم المستخدم او البريد محجوزين بالفعل")
+            return HttpResponseRedirect(reverse("edit_mostachar",args=[mostachar_id]))
 
 
-def add_student(request):
-    courses = Courses.objects.all()
-    sessions = SessionYearModel.objects.all()
-    form = AddStudentForm()
-    return render(request, template_name="hod_template/add_student_template.html",context={'courses':courses , 'sessions':sessions ,'form':form})
+def distribit(request):
+    mostachars = Mostachar.objects.all()
+    seconrays = Secondary.objects.all()
+    moyens = Moyen.objects.all()
+    primary = Primary.objects.all()
+    context = {"mostachars":mostachars, "seconrays":seconrays, "moyens":moyens, "primarys":primary}
+    return render(request, template_name="hod_template/distrebit_mostachar_template.html",context =context )
 
 
-def add_student_save(request ):
+def distribit_save(request):
+    if request.method != "POST" :
+        messages.error(request, "method not allow")
+    else:
+        mostachar_id = request.POST.get("mostacharid")
+        checkcompany = request.POST.getlist("checkcompany")
 
+        #  try:
+        mostacharobj = Mostachar.objects.get(id=mostachar_id)
+        user = CustomUser.objects.get(id=mostacharobj.withuser.id)
+        secondry = Secondary.objects.get(id__in=checkcompany)
+        secondry.withprimary = user
+        print(secondry)
+        secondry.save()
+        messages.success(request, "success update staff")
+        return HttpResponseRedirect(reverse("distribit"))
+            # except:
+
+
+def distribitmoyen_save(request):
     if request.method != "POST":
         messages.error(request, "method not allow")
-        return HttpResponseRedirect(reverse("add_student_save"))
     else:
-        form = AddStudentForm(request.POST , request.FILES)
-        if form.is_valid():
-            first_name = form.cleaned_data["first_name"]
-            last_name = form.cleaned_data["last_name"]
-            username = form.cleaned_data["username"]
-            email = form.cleaned_data["email"]
-            password = form.cleaned_data["password"]
-            address = form.cleaned_data["address"]
-            course_id = form.cleaned_data["course"]
-            sex = form.cleaned_data["sex"]
-            session_year_id = form.cleaned_data["session_year_id"]
-
-            if request.FILES.get('profile_pic', False):
-                profile_pic=request.FILES['profile_pic']
-                fs=FileSystemStorage()
-                filename = fs.save(profile_pic.name,profile_pic)
-                profile_pic_url = fs.url(filename)
-            else:
-                profile_pic_url = None
+        mostachar_id = request.POST.get("mostacharmoyenid")
+        checkcompany = request.POST.getlist("checkcompanymoyen")
+        print(mostachar_id)
+        print(checkcompany)
+            #  try:
+        mostacharobj = Mostachar.objects.get(id=mostachar_id)
+        print(mostacharobj)
+        user = CustomUser.objects.get(id=mostacharobj.withuser.id)
+        moyen = Moyen.objects.filter(id__in=checkcompany)
+        print(moyen)
+        for company in moyen:
+            company.withuser = user
+            print(company)
+            company.save()
+        messages.success(request, "success update staff")
+        return HttpResponseRedirect(reverse("distribit"))
 
 
-            try:
-                user = CustomUser.objects.create_user(first_name= first_name ,last_name=last_name , username=username , email=email , password=password , user_type= 3 )
-                user.students.address = address
-                user.students.gender = sex
-                course_obj = Courses.objects.get(id=course_id)
-                user.students.course_id = course_obj
-
-                user.students.profile_pic = profile_pic_url
-                session = SessionYearModel.objects.get(id=session_year_id)
-                user.students.session_year_id = session
-
-                #user.students.profile_pic = ""
-                user.save()
-                messages.success(request,"success reistertion studernt")
-                return HttpResponseRedirect(reverse("add_student"))
-            except:
-                messages.error(request, "field reistertion studernt")
-                return HttpResponseRedirect(reverse("add_student"))
-        else:
-            form = AddStudentForm(request.POST )
-        return render(request, template_name="hod_template/add_student_template.html",context={ 'form':form})
-
-def add_subject(request):
-    courses = Courses.objects.all()
-    staffs = CustomUser.objects.filter(user_type=2)
-    return render(request, template_name="hod_template/add_subject_template.html",context={'courses':courses , 'staffs':staffs})
-
-def add_subject_save(request):
+def distribitprimer_save(request):
     if request.method != "POST":
         messages.error(request, "method not allow")
-        return HttpResponseRedirect(reverse("add_subject"))
     else:
-        subject_name = request.POST.get("subject_name")
-      #  course_id = request.POST.get("course")
-        course = Courses.objects.get(id=request.POST.get("course"))
+        mostachar_id = request.POST.get("mostacharprimerid")
+        checkcompany = request.POST.getlist("checkcompanyprem")
+        print(mostachar_id)
+        print(checkcompany)
+            #  try:
+        mostacharobj = Mostachar.objects.get(id=mostachar_id)
+        print(mostacharobj)
+        user = CustomUser.objects.get(id=mostacharobj.withuser.id)
+        premer = Primary.objects.filter(id__in=checkcompany)
+        print(premer)
+        for company in premer:
+            company.withuser = user
+            print(company)
+            company.save()
+        messages.success(request, "success update staff")
+        return HttpResponseRedirect(reverse("distribit"))
 
-        staff_id = request.POST.get("staff")
-        staff = CustomUser.objects.get(id=staff_id)
+    #   messages.error(request, "field  update staff")
+            #return HttpResponseRedirect(reverse("distribit"))
+
+def add_activte(request):
+    activeobj = ActiviteName.objects.all()
+    context={'activeobj':activeobj}
+    return render(request, template_name="hod_template/add_actvite_template.html", context=context)
+
+
+def add_activte_save(request):
+    if request.method != "POST" :
+        messages.error(request, "method not allow")
+    else:
+        name = request.POST.get("name")
+        typee = request.POST.get("typee")
+        active = ActiviteName.objects.create(name=name, typee=typee)
+        active.save()
+        messages.success(request, "تم الاضافة")
+        return HttpResponseRedirect(reverse("add_activte"))
+
+
+def add_typefilemedia(request):
     try:
-
-        subject = Subjects.objects.create(subject_name=subject_name , course_id_id=course.id , staff_id_id=staff.id)
-        subject.save()
-        messages.success(request, "success add subject")
-        return HttpResponseRedirect(reverse("add_subject"))
+        filemedia = TypeFileMedia.objects.all()
     except:
-        messages.error(request, "field  add subject")
-        return HttpResponseRedirect(reverse("add_subject"))
+        filemedia=""
+    context = {'filemedia': filemedia}
+    return render(request, template_name="hod_template/add_typefilemedia_template.html", context=context)
 
 
-def manage_staff(request):
-    staffs = Staffs.objects.all()
-    context={'staffs':staffs}
-    return render(request, template_name="hod_template/manage_staff_template.html",context=context)
-
-
-def manage_student(request):
-    students = Students.objects.all()
-    context={'students':students}
-    return render(request, template_name="hod_template/manage_student_template.html",context=context)
-
-
-def manage_course(request):
-    courses = Courses.objects.all()
-    context={'courses':courses}
-    return render(request, template_name="hod_template/manage_course_template.html",context=context)
-
-def manage_subject(request):
-    subjects = Subjects.objects.all()
-    context={'subjects':subjects}
-    return render(request, template_name="hod_template/manage_subject_template.html",context=context)
-
-def edit_staff(request , staff_id ):
-    staff = Staffs.objects.get(admin=staff_id)
-    context = {'staff': staff , 'staff_idd':staff_id}
-    return render(request, template_name="hod_template/edit_staff_template.html",context=context)
-
-def edit_staff_save(request):
+def add_typefilemedia_save(request):
     if request.method != "POST" :
         messages.error(request, "method not allow")
-
     else:
-        staff_id = request.POST.get("staff_id")
-        first_name = request.POST.get("first_name")
-        last_name = request.POST.get("last_name")
-        username = request.POST.get("username")
-        email = request.POST.get("email")
+        name = request.POST.get("name")
+        typemediafile = TypeFileMedia.objects.create(name=name)
+        typemediafile.save()
+        messages.success(request, "تم الاضافة")
+        return HttpResponseRedirect(reverse("add_typefilemedia"))
 
-        address = request.POST.get("address")
+
+def mostachar_info(request):
+    mostachars = Mostachar.objects.select_related('withuser').all()
+    context={'mostachars':mostachars}
+    return render(request, template_name="hod_template/mostachar_info.html",context=context)
+
+
+def date_all(request):
+    mostachars = Mostachar.objects.select_related('withuser').all()
+    context={'mostachars':mostachars}
+    return render(request, template_name="hod_template/date_range_template.html",context=context)
+
+
+def date_all_get(request):
+
+
+
+    primary1 = request.GET.get("primary1")
+    primary2 = request.GET.get("primary2")
+
+
+    # الاعلام#
+    try:
+        primary1 = datetime.strptime(primary1, "%Y-%m-%d")
+        primary2 = datetime.strptime(primary2, "%Y-%m-%d")
+    except:
+        pass
+
+
+    try:
+        mediasec = MediaSec.objects.select_related('degraycomany__company','degraycomany__spesial').filter(date__range=[primary1, primary2])
+    except:
+        mediasec=""
+    try:
+        mediamoy = MediaMoy.objects.select_related('withclass__company').filter(date__range=[primary1, primary2])
+    except:
+        mediamoy=""
+    try:
+        mediapre = MediaPre.objects.select_related('withclass__company').filter(date__range=[primary1, primary2])
+    except:
+        mediapre=""
+
+    #المتابعة
+
+    try:
+        motabasec = MotabaSec.objects.select_related('withcompany').filter(date__range=[primary1, primary2])
+    except:
+        motabasec = ""
+
+
+
+    try:
+        motabamoy = MotabaMoy.objects.select_related('withcompany').filter(date__range=[primary1, primary2])
+    except:
+        motabamoy = ""
+
+
+    #خلية الاصغاء
+
+    try:
+        listingcell = ListeningCells.objects.select_related('withcompany').filter(date__range=[primary1, primary2])
+    except:
+        listingcell = ""
+
+
+
+    #لجان المتابعة
+
+    try:
+        followcomit = Followcommit.objects.select_related('withcompany').filter(date__range=[primary1, primary2])
+    except:
+        followcomit = ""
+
+
+    #اعلام الاولياء
+
+    try:
+        mediasecparnt = MediaSecParnt.objects.select_related('withsecondray','withdegrey').filter(date__range=[primary1, primary2]).values('id', 'withdegrey__name', 'withdegrey__id', 'withsecondray__id', 'withsecondray__name', 'date','nomberesteda','nomberhodor').annotate(persontage=Round2(ExpressionWrapper(Cast(F('nomberhodor')*100, FloatField())/F('nomberesteda'),
+        output_field=FloatField())))
+        listmedsec=list(mediasecparnt)
+        liste = mediasecparnt.values_list('withdegrey_id', 'withsecondray_id')
+        thelist = list(liste)
+        q_filter = Q(*[Q(withdegrey=x, company=y) for x, y in (thelist)], _connector=Q.OR)
+        ddegrycomp = DegreyCompany.objects.filter(q_filter).values('withdegrey_id', 'company_id').annotate(
+            nomberetude=Sum('nomberetud'))
+        ddegrycompe = list(ddegrycomp)
+        data = []
+        dictt = {}
+        i = 0
+        while i < len(listmedsec):
+            j = 0
+            while j < len(ddegrycompe):
+                if listmedsec[i]['withsecondray__id'] == ddegrycompe[j]['company_id'] and listmedsec[i]['withdegrey__id'] == ddegrycompe[j]['withdegrey_id']:
+                    dictt.update(listmedsec[i])
+                    dictt.update(ddegrycompe[j])
+                    newdict = dict(dictt)
+                    data.append(newdict)
+                j += 1
+            i += 1
+        print(data)
+    except:
+        data= []
+
+    #اعلا الاولياء متوسط
+
+    try:
+        mediamoyparnt =MediaMoyParnt.objects.filter(date__range=[primary1, primary2]).values('id','date','withdegry__name','withcompany__name','nomberesteda','nomberhodor','withdegry__nomberetud')
+        data_listmediamoy = list(mediamoyparnt)
+        datamoy = []
+        for l in data_listmediamoy:
+            persontage = ((l["nomberhodor"] * 100) / l["nomberesteda"]).__round__(2)
+            l.update({"percontage": persontage})
+            datamoy.append(l)
+    except:
+        datamoy = []
+
+
+    #اعلا الاولياء ابتدائي
+
+    try:
+        mediapremparnt = MediaPreParnt.objects.select_related('withcompany','withdegry').filter(date__range=[primary1, primary2]).values('id','date','withdegry__name','withcompany__name','nomberesteda','nomberhodor','withdegry__nomberetud').annotate(persontage=Round2(ExpressionWrapper(Cast(F('nomberhodor')*100, FloatField())/F('nomberesteda'),
+        output_field=FloatField())))
+        dataprem = list(mediapremparnt)
+    except:
+        dataprem = []
+
+
+    # ثانوي الوثائق الاعلامية
+
+    try:
+        filemediasec = FileMediaSec.objects.select_related('withcompany','withdegry','type').filter(date__range=[primary1, primary2])
+
+    except:
+        filemediasec = ""
+
+
+    # متوسط الوثائق الاعلامية
+
+    try:
+        filemediamoy = FileMediaMoy.objects.select_related('withcompany','withdegry','type').filter(date__range=[primary1, primary2])
+    except:
+        filemediamoy = ""
+
+
+    # نشاطات اخرى ثانوي
+    try:
+        otheractivesec = OtherActiv.objects.select_related('withcompany1','name').filter(withcompany1__isnull=False,date__range=[primary1, primary2])
+    except:
+        otheractivesec = ""
+
+
+    # نشاطات اخرى متوسط
+    try:
+        otheractivemoy = OtherActiv.objects.select_related('withcompany2','name').filter(withcompany2__isnull=False,date__range=[primary1, primary2])
+    except:
+        otheractivemoy = ""
+
+
+    # نشاطات اخرى ابتدائي
+    try:
+        otheractiveprem = OtherActiv.objects.select_related('withcompany3','name').filter(withcompany3__isnull=False, date__range=[primary1, primary2])
+    except:
+        otheractiveprem = ""
+    test = OtherActiv.objects.filter(
+        withcompany3__isnull=False, date__range=[primary1, primary2])
+
+    print(test)
+    # نشاطات اخرى عامة
+    try:
+        otheract = OtherActiv.objects.select_related('name').filter(withcompany1=None, withcompany2=None, withcompany3=None, date__range=[primary1, primary2])
+    except:
+        otheract = ""
+    context = {"data":data, "otheract":otheract, "otheractiveprem":otheractiveprem,"otheractivesec":otheractivesec, "otheractivemoy":otheractivemoy, "filemediasec":filemediasec,"filemediamoy":filemediamoy ,"dataprem":dataprem ,"datamoy":datamoy ,"mediasec":mediasec, "mediamoy":mediamoy, "mediapre":mediapre, "primary1":primary1, "primary2":primary2, "motabasec":motabasec, "motabamoy":motabamoy, "listingcell":listingcell, "followcomit":followcomit}
+    return render(request, template_name="hod_template/date_range_template.html",context=context)
+
+ #--------------------------------------------#
+
+#hالجميع الكلي
+def date_range_full(request):
+    return render(request, template_name="hod_template/date_rangeall_template.html")
+
+#hالجميع الكلي
+def date_range_full_get(request):
+    primary1 = request.GET.get("primary1")
+    primary2 = request.GET.get("primary2")
+
+    try:
+        objsecondery = Secondary.objects.get(withprimary=request.user.id)
+        degraycompsec = DegreyCompany.objects.filter(company=objsecondery)
+    except:
+        objsecondery = ""
+        degraycompsec = ""
+    try:
+        objmoyen = Moyen.objects.filter(withuser=request.user.id)
+        degraycompmoy = DegreyMoyenCompany.objects.filter(company__in=objmoyen)
+    except:
+        objmoyen = ""
+        degraycompmoy = ""
+
+    try:
+        objprem = Primary.objects.filter(withuser=request.user.id)
+        degraycompprem = DegreyPremCompany.objects.filter(company__in=objprem)
+    except:
+        objprem = ""
+        degraycompprem = ""
+    # الاعلام#
+    try:
+        primary1 = datetime.strptime(primary1, "%Y-%m-%d")
+        primary2 = datetime.strptime(primary2, "%Y-%m-%d")
+    except:
+        pass
+
+    # الاعلام ثانوي#
+    try:
+        # mediasec = MediaSec.objects.filter(date__range=[primary1, primary2]).select_related()
+        test1ok = MediaSec.objects.select_related('degraycomany_id').filter(date__range=[primary1, primary2]).values('degraycomany_id','degraycomany__company__name','degraycomany__company__withprimary__username','degraycomany__nomberexist','degraycomany__spesial__name','degraycomany__name').annotate(total=Sum('nomberhisas'))
+    except:
+        test1ok =""
+
+    # الاعلام متوسط#
+    try:
+        mediamoy = MediaMoy.objects.filter(date__range=[primary1, primary2]).values(
+            'withclass_id','withclass__company__withuser__username','withclass__company__name','withclass__withdegrey__name','withclass__nomberexist').annotate(total=Sum('nomberhisas'))
+    except:
+        mediamoy=""
+
+
+    # الاعلام ابتدائي#
+    try:
+        #mediapre = MediaPre.objects.filter(date__range=[primary1, primary2], withclass__in=degraycompprem)
+        mediapre = MediaPre.objects.filter(date__range=[primary1, primary2]).values(
+            'withclass_id','withclass__company__name','withclass__company__withuser__username','withclass__withdegrey__name','withclass__nomberexist').annotate(total=Sum('nomberhisas'))
+    except:
+        mediapre = ""
+
+
+    #المتابعة
+
+    try:
+        motabasec = MotabaSec.objects.filter(date__range=[primary1, primary2]).values(
+                'withcompany__name').annotate(study=Sum('study'), behaviorism=Sum('behaviorism'), familial=Sum('familial'), psychological=Sum('psychological'), healthy=Sum('healthy'))
+
+    except:
+        motabasec = ""
+
+    # المتابعة متوسط
+
+    try:
+        listmota = MotabaMoy.objects.filter(date__range=[primary1, primary2]).values(
+                'withcompany__name').annotate(study=Sum('study'), behaviorism=Sum('behaviorism'), familial=Sum('familial'), psychological=Sum('psychological'), healthy=Sum('healthy'))
+    except:
+        listmota = ""
+
+    #خلية الاصغاء
+
+    try:
+        listingcell = ListeningCells.objects.filter(date__range=[primary1, primary2]).values('withcompany__name','date','stat','why')
+    except:
+        listingcell = ""
+
+
+
+    #لجان المتابعة
+    if objmoyen != "":
         try:
-
-            user = CustomUser.objects.get(id=staff_id)
-            user.first_name = first_name
-            user.last_name = last_name
-            user.username = username
-            user.email = email
-
-            user.save()
-
-            staff_model = Staffs.objects.get(admin=staff_id)
-            staff_model.address = address
-            staff_model.save()
-            messages.success(request, "success update staff")
-            return HttpResponseRedirect(reverse("edit_staff", args=[staff_id]))
+            followcomit = Followcommit.objects.select_related('withcompany').filter(date__range=[primary1, primary2])
         except:
-
-            messages.error(request, "field  update staff")
-            return HttpResponseRedirect(reverse("edit_staff",args=[staff_id]))
-
-
-def edit_student(request , student_id ):
-    request.session['student_id']= student_id
-    student = Students.objects.get(admin=student_id)
-    form = EditStudentForm()
-
-    form.fields['email'].initial = student.admin.email
-    form.fields['first_name'].initial = student.admin.first_name
-    form.fields['last_name'].initial = student.admin.last_name
-    form.fields['username'].initial = student.admin.username
-    form.fields['address'].initial = student.address
-    form.fields['course'].initial = student.course_id.id
-    form.fields['sex'].initial = student.gender
-#   form.fields['profile_pic'].initial = student.profile_pic
-
-    form.fields['session_year_id'].initial = student.session_year_id.id
-
-
-
-    context = {'form': form  , 'id':student_id , 'username':student.admin.username}
-    return render(request, template_name="hod_template/edit_student_template.html",context=context)
-
-def edit_student_save(request):
-    if request.method != "POST" :
-        messages.error(request, "method not allow")
-
+            followcomit = ""
     else:
-        student_id = request.session.get('student_id')
-        if student_id == None:
-            return HttpResponseRedirect(reverse("manage_student"))
-        first_name = request.POST.get("first_name")
-        last_name = request.POST.get("last_name")
-        username = request.POST.get("username")
-        email = request.POST.get("email")
+        followcomit = ""
 
-        address = request.POST.get("address")
-        course_id = request.POST.get("course")
-        sex = request.POST.get("sex")
-        session_year_id = request.POST.get("session_year_id")
-        sess = SessionYearModel.objects.get(id= session_year_id)
-        session_year_idd = sess
+    #اعلام الاولياء
 
-        if request.FILES.get('profile_pic' , False) :
-            profile_pic = request.FILES['profile_pic']
-            fs = FileSystemStorage()
-            filename = fs.save(profile_pic.name, profile_pic)
-            profile_pic_url = fs.url(filename)
-        else:
-            profile_pic_url = None
-        try:
-
-
-            user = CustomUser.objects.get(id=student_id)
-            user.first_name = first_name
-            user.last_name = last_name
-            user.username = username
-            user.email = email
-
-
-            user.save()
-
-            student_model = Students.objects.get(admin=student_id)
-            student_model.address = address
-            student_model.gender = sex
-            student_model.session_year_id = session_year_idd
-
-            if profile_pic_url != None:
-                student_model.profile_pic = profile_pic_url
-
-            course = Courses.objects.get(id=course_id)
-            student_model.course_id = course
-            student_model.save()
-            del request.session['student_id']
-            messages.success(request, "success update student")
-            return HttpResponseRedirect(reverse("edit_student" , args=[student_id]))
-        except:
-
-            messages.error(request, "field  update student")
-            return HttpResponseRedirect(reverse("edit_student" , args=[student_id]))
+    try:
+        listilam = MediaSecParnt.objects.filter(date__range=[primary1, primary2]).values(
+                'withsecondray__name','withdegrey__name','withsecondray_id','withdegrey_id').annotate(nomberhodor=Sum('nomberhodor'), nomberesteda=Sum('nomberesteda'), percent=Round2(ExpressionWrapper(Cast(F('nomberhodor')*100, FloatField())/F('nomberesteda'),
+        output_field=FloatField())))
+        listilame = list(listilam)
+        liste = listilam.values_list('withdegrey_id', 'withsecondray_id')
+        thelist = list(liste)
+        q_filter = Q(*[Q(withdegrey=x, company=y) for x, y in (thelist)], _connector=Q.OR)
+        ddegrycomp = DegreyCompany.objects.filter(q_filter).values('withdegrey_id', 'company_id').annotate(
+            nomberetude=Sum('nomberetud'))
+        ddegrycompe = list(ddegrycomp)
+        listilamsec = []
+        dictt = {}
+        i=0
+        while i < len(listilam):
+            j=0
+            while j < len(listilame):
+                if listilame[i]['withsecondray_id'] == ddegrycompe[j]['company_id'] and listilame[i]['withdegrey_id'] == ddegrycompe[j]['withdegrey_id']:
+                    dictt.update(listilame[i])
+                    dictt.update(ddegrycompe[j])
+                    newdict = dict(dictt)
+                    listilamsec.append(newdict)
+                j+=1
+            i+=1
+    except:
+        listilamsec = ""
 
 
-def edit_course(request , cours_id ):
-    course = Courses.objects.get(id=cours_id)
 
-    context = {'course':course , 'id':cours_id}
-    return render(request, template_name="hod_template/edit_course_template.html",context=context)
+    #اعلا الاولياء متوسط
 
-def edit_course_save(request):
-    if request.method != "POST":
-        messages.error(request, "method not allow")
-    else:
-        cours_name = request.POST.get("course")
-        course_id = request.POST.get("course_id")
-
-        try:
-            cours = Courses.objects.get(id=course_id)
-            cours.course_name = cours_name
-            cours.save()
-            return HttpResponseRedirect(reverse('edit_course' , args=[course_id]))
-        except:
-            messages.error(request, "field  update cours")
-            return HttpResponseRedirect(reverse('edit_course' , args=[course_id]))
-
-def edit_subject(request , subject_id ):
-    subject = Subjects.objects.get(id=subject_id)
-    courses = Courses.objects.all()
-    staffs = CustomUser.objects.filter(user_type=2)
-    context = {'subject':subject , 'courses':courses , 'staffs':staffs , 'id':subject_id}
-    return render(request, template_name="hod_template/edit_subject_template.html",context=context)
-
-def edit_subject_save(request):
-    if request.method != "POST":
-        messages.error(request, "method not allow")
-        return HttpResponse("not allow to be here")
-    else:
-        try:
-            subject_name = request.POST.get("subject_name")
-            subject_id = request.POST.get("subject_id")
-            course = request.POST.get("course")
-            staffs = request.POST.get("staff")
-
-            subject = Subjects.objects.get(id=subject_id)
-            subject.subject_name = subject_name
-
-            staff = CustomUser.objects.get(id=staffs)
-            subject.staff_id = staff
-      
-            cours = Courses.objects.get(id=course)
-            subject.course_id = cours
-
-            subject.save()
-            return HttpResponseRedirect(reverse('edit_subject',args=[subject_id]))
-        except:
-            messages.error(request, "field  update cours")
-            return HttpResponseRedirect(reverse('edit_subject',args=[subject_id]))
+    try:
+        medmoypar = MediaMoyParnt.objects.filter(date__range=[primary1, primary2]).values(
+                'withdegry_id', 'withdegry__name', 'withcompany_id','withcompany__name','withdegry__nomberetud').annotate(nomberesteda=Sum('nomberesteda'), nomberhodor=Sum('nomberhodor'), persontage=Round2(ExpressionWrapper(Cast(F('nomberhodor')*100, FloatField())/F('nomberesteda'),
+        output_field=FloatField())))
+        listmedmoypar = list(medmoypar)
+    except:
+        listmedmoypar = []
 
 
-def manage_session(request):
-    return render(request , template_name='hod_template/manage_session_template.html')
 
-def manage_session_save(request):
-    if request.method != "POST":
-        return HttpResponseRedirect(reverse("manage_session"))
-    else:
-        session_start_year = request.POST.get("session_start")
-        session_end_year = request.POST.get("session_end")
-        try:
-            sessionyear = SessionYearModel(session_stat_year=session_start_year , session_end_year=session_end_year)
-            sessionyear.save()
-            messages.success(request , "success add session")
-            return HttpResponseRedirect(reverse("manage_session"))
-        except:
-            messages.error(request, "field  add session")
-            return HttpResponseRedirect(reverse("manage_session"))
+
+
+    #اعلا الاولياء ابتدائي
+
+    try:
+        mediapremparnt = MediaPreParnt.objects.filter(date__range=[primary1, primary2]).values(
+                'withdegry_id', 'withcompany_id','withcompany__name','withdegry__name','withdegry__nomberetud').annotate(nomberesteda=Sum('nomberesteda'), nomberhodor=Sum('nomberhodor'), persontage=Round2(ExpressionWrapper(Cast(F('nomberhodor')*100, FloatField())/F('nomberesteda'),
+        output_field=FloatField())))
+        dataprem = list(mediapremparnt)
+    except:
+        dataprem = []
+
+
+    # ثانوي الوثائق الاعلامية
+    try:
+        filemediasec = FileMediaSec.objects.filter(date__range=[primary1, primary2]).values(
+                'withcompany__id', 'withdegry__id', 'type_id','withdegry__name', 'withcompany__name', 'type__name').annotate(count=Count('type_id'))
+    except:
+        filemediasec = ""
+
+
+    # متوسط الوثائق الاعلامية
+
+    try:
+        filemediamoy = FileMediaMoy.objects.filter(date__range=[primary1, primary2]).values(
+                'withcompany_id', 'withdegry_id', 'type_id','withdegry__name', 'withcompany__name', 'type__name').annotate(count=Count('type_id'))
+    except:
+        filemediamoy = ""
+
+
+    # نشاطات اخرى ثانوي
+    try:
+        otheractivesec = OtherActiv.objects.filter(withcompany1__isnull=False,date__range=[primary1, primary2]).values(
+                'name__name','withcompany1__name').annotate(count =Count('name'))
+    except:
+        otheractivesec = ""
+
+
+    # نشاطات اخرى متوسط
+    try:
+        otheractivemoy = OtherActiv.objects.filter(withcompany2__isnull=False,date__range=[primary1, primary2]).values(
+                'name__name','withcompany2__name').annotate(count =Count('name'))
+    except:
+        otheractivemoy = ""
+
+    # نشاطات اخرى ابتدائي
+    try:
+        otheractiveprem = OtherActiv.objects.filter(withcompany3__isnull=False,date__range=[primary1, primary2]).values(
+                'name__name','withcompany3__name').annotate(count =Count('name'))
+    except:
+        otheractiveprem = ""
+
+    # نشاطات اخرى عامة
+    try:
+        otheract = OtherActiv.objects.filter(withcompany1= None, withcompany2= None, withcompany3= None, date__range=[primary1, primary2]).values(
+                'name__name','withuser__username').annotate(count =Count('name'))
+    except:
+        otheract = ""
+
+    context = {"listmediasec":test1ok, "listilamsec":listilamsec, "otheract":otheract, "otheractiveprem":otheractiveprem,"otheractivesec":otheractivesec, "otheractivemoy":otheractivemoy, "listmedfilesec":filemediasec,"listmedfilemoy":filemediamoy ,"dataprem":dataprem ,"datamoypar":listmedmoypar, "listmediamoy":mediamoy, "listmediapre":mediapre, "primary2":primary2, "primary1":primary1, "motabasec":motabasec, "listmota":listmota, "listingcell":listingcell, "followcomit":followcomit}
+    return render(request, template_name="hod_template/date_rangeall_template.html",context=context)
+
 
 @csrf_exempt
 def check_email_exist(request):
@@ -391,118 +864,12 @@ def check_username_exist(request):
     else:
         return HttpResponse(False)
 
-def student_feedback_message(request):
-    feedbacks = FeedBackStudent.objects.all()
-    context={
-        'feedbacks':feedbacks
-    }
-    return render(request,template_name="hod_template/student_feedback_template.html",context=context)
-@csrf_exempt
-def student_feedback_message_replied(request):
-    feedback_id = request.POST.get("id")
-    feedback_msg = request.POST.get("message")
-    try:
-        feedback = FeedBackStudent.objects.get(id=feedback_id)
-        feedback.feedback_replay=feedback_msg
-        feedback.save()
-        return HttpResponse("OK")
-    except:
-        return HttpResponse("Eroor")
-def staff_feedback_message(request):
-    feedbacks = FeedBackStaff.objects.all()
-    context={
-        'feedbacks':feedbacks
-    }
-    return render(request,template_name="hod_template/staff_feedback_template.html",context=context)
-@csrf_exempt
-def staff_feedback_message_replied(request):
-    feedback_id = request.POST.get("id")
-    feedback_msg = request.POST.get("message")
-    try:
-        feedback = FeedBackStaff.objects.get(id=feedback_id)
-        feedback.feedback_replay = feedback_msg
-        feedback.save()
-        return HttpResponse("OK")
-    except:
-        return HttpResponse("Eroor")
-
-def student_leave_view(request):
-    leaves=LeaveRaportStudent.objects.all()
-    context = {
-        'leaves': leaves
-    }
-    return render(request,template_name="hod_template/student_leave_view.html",context=context)
-
-
-def staff_leave_view(request):
-    leaves=LeaveRaportStaff.objects.all()
-    context = {
-        'leaves': leaves
-    }
-    return render(request,template_name="hod_template/staff_leave_view.html",context=context)
-
-def student_approve_leave(request , leave_id):
-    leavereport = LeaveRaportStudent.objects.get(id=leave_id)
-    leavereport.leave_status = "1"
-    leavereport.save()
-    return HttpResponseRedirect(reverse("student_leave_view"))
-def staff_disapprove_leave(request,leave_id):
-    leavereport = LeaveRaportStudent.objects.get(id=leave_id)
-    leavereport.leave_status = "2"
-    leavereport.save()
-    return HttpResponseRedirect(reverse("staff_leave_view"))
-
-def student_disapprove_leave(request, leave_id):
-    leavereport = LeaveRaportStudent.objects.get(id=leave_id)
-    leavereport.leave_status = "2"
-    leavereport.save()
-    return HttpResponseRedirect(reverse("student_leave_view"))
-
-def staff_approve_leave(request , leave_id):
-    leavereport = LeaveRaportStudent.objects.get(id=leave_id)
-    leavereport.leave_status = "1"
-    leavereport.save()
-    return HttpResponseRedirect(reverse("staff_leave_view"))
-
-def admin_view_attendance(request):
-    subjects = Subjects.objects.all()
-    session_year_id = SessionYearModel.objects.all()
-    context = {"subjects": subjects, "session_year_id": session_year_id}
-    return render(request, template_name="hod_template/admin_view_attendance.html",context=context)
-@csrf_exempt
-def admin_get_attendance_dates(request):
-    subject = request.POST.get("subject")
-    session_year_id = request.POST.get("session_year_id")
-    subject_obj = Subjects.objects.get(id=subject)
-    session_year_obj = SessionYearModel.objects.get(id=session_year_id)
-    attendance = Attendance.objects.filter(subject_id=subject_obj, session_year_id=session_year_obj)
-    attendance_obj = []
-    for attendance_single in attendance:
-        data = {"id": attendance_single.id, "attendance_date": str(attendance_single.attendance_date),
-                "session_year_id": attendance_single.session_year_id.id}
-        attendance_obj.append(data)
-    print(attendance_obj)
-
-    return JsonResponse(json.dumps(attendance_obj), safe=False)
-@csrf_exempt
-def admin_get_attendance_student(request):
-    attendance_date = request.POST.get("attendance_date")
-    attendance = Attendance.objects.get(id=attendance_date)
-    attendance_data = AttendanceReport.objects.filter(attendance_id=attendance)
-    # students = Students.objects.filter(course_id=subject.course_id, session_year_id=session_year)
-    # student_data = serializers.serialize("python", students)
-
-    list_data = []
-    for student in attendance_data:
-        data_small = {'id': student.student_id.admin.id, 'status': student.status,
-                      'name': student.student_id.admin.first_name + " " + student.student_id.admin.last_name}
-        list_data.append(data_small)
-    return JsonResponse(json.dumps(list_data), content_type="application/json", safe=False)
 
 def admin_profile(request):
     user = CustomUser.objects.get(id=request.user.id)
     context={'user':user}
     return render(request, template_name="hod_template/admin_profile.html", context=context)
+
 @csrf_exempt
 def admin_profile_save(request):
     if request.method != "POST":

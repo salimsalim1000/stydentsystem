@@ -1,0 +1,195 @@
+{% extends 'hod_template/base_template.html' %}
+{% load static %}
+{% block custom_css %}
+<style>
+ .toggle-vis{
+     margin-left: 3px;
+ }
+</style>
+{% endblock custom_css %}
+{% block page_title %}
+  معلومات المستشارين
+    <a class="btn btn-secondary"  href="">تحكم الجدول</a>
+{% endblock page_title %}
+
+{% block main_content %}
+
+    <!-- DataTables -->
+      <link rel="stylesheet" href="{% static "plugins/datatables-bs4/css/dataTables.bootstrap4.css" %}">
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+
+
+
+
+
+                <div class="row">
+            <div class="col-sm-12">
+        <!-- /.card-header -->
+
+ <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+<div class="container btncontrol" style="display: none" >
+  <div class="row">
+     <a class="toggle-vis btn-sm btn-primary" data-column="24" href="">اسم واللقب</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="23" href="">ت ميلاد</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="22" href="">ح مدنية</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="21" href="">الاولاد</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="19" href="">تاريخ شهادة</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="20" href="">الشهادة</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="18" href="">التخصص</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="17" href="">الجامعة</a>
+    <a class="toggle-vis btn-sm btn-primary" data-column="16" href="">ت تعيين س قطاع ت</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="15" href="">ت تعيين س التوجيه</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="13" href="">ت تعيين المؤسسة</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="14" href="">مؤسسة الاقامة</a>
+
+       </div>
+     <div class="row" style="padding-top: 10px; padding-bottom: 6px">
+            <a class="toggle-vis btn-sm btn-primary" data-column="12" href="">ص تعيين مؤسسة</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="11" href="">ص تعيين منصب</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="9" href="">ت بدايتها</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="10" href="">الرتبة الحالية</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="7" href="">ت مفعولها</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="8" href="">الدرجة</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="6" href="">شـ الميلاد</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="5" href="">مكان الميلاد</a>
+     <a class="toggle-vis btn-sm btn-primary" data-column="4" href="">CCP</a>
+      <a class="toggle-vis btn-sm btn-primary" data-column="3" href="">المفتاح</a>
+      <a class="toggle-vis btn-sm btn-primary" data-column="2" href="">هاتف1</a>
+      <a class="toggle-vis btn-sm btn-primary" data-column="1" href="">هاتف2</a>
+      <a class="toggle-vis btn-sm btn-primary" data-column="0" href="">بريد</a>
+  </div>
+
+
+ </div>
+             <table id="example1" class="table table-bordered table-striped dataTable " role="grid" aria-describedby="example1_info" style="text-align:center;">
+                  <thead>
+
+                  <tr style="background-color: #bdbbbb">
+                             <th scope="col">البريد الالكتروني</th>
+                              <th scope="col">رقم الهاتف 2</th>
+                              <th scope="col">رقم الهاتف 1</th>
+                              <th scope="col">المفتاح</th>
+                                <th scope="col">رقم الحساب الجاري</th>
+                              <th scope="col">مكان الميلاد</th>
+                              <th scope="col">رقم عقد شهادة الميلاد</th>
+                              <th scope="col">تاريخ مفعولها</th>
+                              <th scope="col">اخر درجة</th>
+                              <th scope="col">تاريخ بدايتها</th>
+                              <th scope="col">الرتبة الحاية</th>
+                              <th scope="col">صفة التعيين بالمنصب</th>
+                              <th scope="col">صفة التعيين بالمؤسسة</th>
+                              <th scope="col">تاريخ التعيين فيها</th>
+                              <th scope="col">مؤسسة الإقامة</th>
+                              <th scope="col">تاريخ اول تعيين في سلك التوجيه</th>
+                              <th scope="col">تاريخ اول تعيين في القطاع</th>
+                              <th scope="col">الجامعة</th>
+                              <th scope="col">التخصص</th>
+                             <th scope="col">تاريخ الحصول عليها</th>
+                                 <th scope="col">الشهادة</th>
+                              <th scope="col">عدد الاولاد</th>
+                              <th scope="col">الحالة المدنية</th>
+                              <th scope="col">تاريخ الميلاد</th>
+                             <th scope="col">اسم واللقب</th>
+                         </tr>
+                  </thead>
+                     <tbody>
+
+
+
+
+                  {% for foor in mostachars %}
+
+
+                            <tr>
+                            <td colspan="1" >{{ foor.email }}</td>
+                           <td colspan="1" >{{ foor.phone2 }}</td>
+                            <td colspan="1" >{{ foor.phone1 }}</td>
+                            <td colspan="1">{{ foor.clee|default:"" }}</td>
+                            <td colspan="1">{{ foor.ncountccp }} </td>
+                            <td colspan="1">{{ foor.placebrith }}</td>
+                            <td colspan="1">{{ foor.nbrith }}</td>
+                            <td colspan="1">{{ foor.dateactive|date:'Y-m-d' }}</td>
+                            <td colspan="1">{{ foor.lastdegry }}</td>
+                            <td colspan="1">{{ foor.datestart|date:'Y-m-d' }}</td>
+                            <td colspan="1">{{ foor.degry }}</td>
+                            <td colspan="1">{{ foor.as2 }}</td>
+                            <td colspan="1">{{ foor.as1 }}</td>
+                            <td colspan="1">{{ foor.firstdatecomp|date:'Y-m-d' }}</td>
+                            <td colspan="1">{{ foor.companystay }}</td>
+                            <td colspan="1">{{ foor.firstdateinsector|date:'Y-m-d' }}</td>
+                            <td colspan="1">{{ foor.firstdate|date:'Y-m-d' }}</td>
+                            <td colspan="1">{{ foor.universti }}</td>
+                            <td colspan="1">{{ foor.spesialte }}</td>
+                            <td colspan="1">{{ foor.datechhada|date:'Y-m-d' }}</td>
+                            <td colspan="1">{{ foor.chhada }}</td>
+                            <td colspan="1">{{ foor.nomberchild }}</td>
+                            <td colspan="1">{{ foor.stat }}</td>
+                            <td colspan="1">{{ foor.datenes|date:'Y-m-d' }}</td>
+                                <td colspan="1">{{ foor.withuser.first_name }} {{ foor.withuser.last_name }}</td>
+
+
+
+
+                              </tr>
+
+
+                      {% endfor %}
+
+
+
+
+
+            </tbody>
+
+        </table>
+ </div>
+    </div>
+</div>
+            </div>
+
+    </section>
+              <!-- /.card-body -->
+
+{% endblock main_content %}
+{% block custom_js %}
+
+        <!-- AdminLTE for demo purposes -->
+<script src="{% static "plugins/datatables/jquery.dataTables.js" %}"></script>
+<script src="{% static "plugins/datatables-bs4/js/dataTables.bootstrap4.js" %}"></script>
+<script>
+$(document).ready(function(){
+  $(function () {
+    $("#example1").DataTable();
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true,
+
+    });
+    $('a.toggle-vis').on( 'click', function (e) {
+        e.preventDefault();
+        var table = $('#example1').DataTable();
+        // Get the column API object
+        var column = table.column( $(this).attr('data-column') );
+        $(this).toggleClass("btn-danger")
+        $(this).toggleClass("btn-primary")
+        // Toggle the visibility
+        column.visible( ! column.visible() );
+    } );
+        $('a.btn-secondary').on( 'click', function (e) {
+        e.preventDefault();
+
+        $(this).toggleClass("btn-danger")
+
+        $(".btncontrol").toggle("fast")
+    } );
+
+  });
+  });
+</script>
+{% endblock custom_js %}
