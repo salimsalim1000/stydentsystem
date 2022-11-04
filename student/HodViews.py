@@ -3,6 +3,8 @@ import json
 from builtins import id
 from datetime import datetime
 from decimal import Decimal
+
+
 from django.db.models import Q
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
@@ -316,6 +318,45 @@ def add_mostachar_save(request):
             messages.error(request, "اسم المستخدم او البريد الالكتروني موجود بالفعل")
             return HttpResponseRedirect(reverse("add_mostachar"))
 
+def add_blukuser(request):
+    return render(request,template_name="hod_template/add_blukuser_template.html")
+
+
+import openpyxl
+def add_blukuser_save(request):
+    if request.method == 'POST':
+        excelfile = request.FILES['file']
+        print(excelfile)
+        wb = openpyxl.load_workbook(excelfile)
+        sheets = wb.sheetnames[0]
+        print(sheets)
+        worksheet = wb[sheets]
+        print(worksheet)
+        excel_data = list()
+        # iterating over the rows and
+        # getting value from each cell in row
+        kk=0
+        for row in worksheet.iter_rows(min_row=2):
+            row_data = list()
+            for cell in row:
+                row_data.append(str(cell.value))
+            excel_data.append(row_data)
+
+            try:
+                user = CustomUser.objects.create_user(password=row_data[1], last_name=row_data[8],first_name= row_data[8] , username=row_data[6],
+                                                      email=row_data[13], user_type=row_data[12])
+                user.save()
+                Mostachar.objects.create(withuser=user, email=row_data[13], phone1="", phone2="", ncountccp=0, nbrith=0,
+                                         placebrith="", lastdegry=0, degry=0, as1=1, as2=1, companystay="",
+                                         spesialte="", universti="", stat=1, nomberchild=0, chhada=1, clee=0)
+
+                messages.success(request, "تم اضافة المستشارين")
+            except:
+                messages.error(request, "خطا في اضافة المستشارين")
+
+
+    return HttpResponseRedirect(reverse("add_blukuser"))
+
 def manage_mostachar(request):
     mostachars = Mostachar.objects.all()
     context={'mostachars':mostachars}
@@ -337,6 +378,7 @@ def edit_mostachar_save(request):
         username = request.POST.get("username")
         email = request.POST.get("email")
         address = request.POST.get("address")
+        password = request.POST.get("password")
         try:
 
             user = CustomUser.objects.get(id=mostachar_id)
@@ -344,6 +386,8 @@ def edit_mostachar_save(request):
             user.last_name = last_name
             user.username = username
             user.email = email
+            if password:
+                user.set_password(password)
 
             user.save()
 

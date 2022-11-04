@@ -1,1 +1,1 @@
-web: gunicorn stydentsystem.wsgi --log-file -
+web: gunicorn stydentsystem.wsgi:application --log-file -

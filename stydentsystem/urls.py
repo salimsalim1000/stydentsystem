@@ -55,6 +55,8 @@ urlpatterns = [
     path('add_classsecond_save', HodViews.add_classsecond_save, name="add_classsecond_save"),
     path('add_mostachar', HodViews.add_mostachar, name="add_mostachar"),
     path('add_mostachar_save', HodViews.add_mostachar_save),
+    path('add_blukuser', HodViews.add_blukuser, name="add_blukuser"),
+    path('add_blukuser_save', HodViews.add_blukuser_save),
     path('manage_mostachar', HodViews.manage_mostachar, name="manage_mostachar"),
     path('edit_mostachar/<str:mostachar_id>', HodViews.edit_mostachar, name="edit_mostachar"),
     path('edit_mostachar_save', HodViews.edit_mostachar_save, name="edit_mostachar_save"),

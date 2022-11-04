@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import django_heroku
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -23,16 +23,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'h)v-6zjk(wtutd&!c@fogt2bh0i5itmgrkid!2_ystmf2oy&j8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 MEDIA_URL="/media/"
 MEDIA_ROOT=os.path.join(BASE_DIR,"media")
 
-STATIC_URL="/static/"
+
 STATIC_ROOT=os.path.join(BASE_DIR,"static")
 ROOT_URLCONF = 'stydentsystem.urls'
-django_heroku.settings(locals())
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 # Application definition
 
 INSTALLED_APPS = [
@@ -140,11 +140,14 @@ AUTHENTICATION_BACKENDS=['student.EmailBackEnd.EmailBackEnd']
 #EMAIL_FILE_PATH = os.path.join(BASE_DIR,"sent_mails")
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'salimsalim1000@gmail.com'
-EMAIL_HOST_PASSWORD = 'fh18071989FH' #past the key or password app here
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_HOST_USER = 'cogsp39@hotmail.com'
+EMAIL_HOST_PASSWORD = 'fh29041975' #past the key or password app here
+DEFAULT_FROM_EMAIL = 'cogsp39@hotmail.com'
+EMAIL_FROM = 'cogsp39@hotmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 import dj_database_url

@@ -55,6 +55,16 @@
             </a>
           </li>
 
+         <li class="nav-item">
+            {% url 'add_blukuser' as add_blukuser %}
+            <a href="{{ add_blukuser }}" class="nav-link {% if request.path == add_blukuser %} active {% endif %}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                اضافة مجموعة مستشارين
+              </p>
+            </a>
+          </li>
+
           <li class="nav-item">
             {% url 'manage_mostachar' as manage_mostachar %}
              {% url 'edit_mostachar' mostachar_id=mostachar.withuser.id as edit_mostachar %}

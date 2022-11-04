@@ -56,8 +56,13 @@ def add_degreyprem_save(request):
             return HttpResponseRedirect(reverse("add_degreyprem"))
 
         try:
-            DegreyPremCompany.objects.get(withdegrey=degrys, company=prim)
-            messages.error(request, "موجود بالفعل")
+            model = DegreyPremCompany.objects.get(withdegrey=degrys, company=prim, name=degrys.name)
+            model.nomberetud = numetud
+            model.nomberexist = numetudex
+            model.femail = femal
+            model.reatrap = reatrap
+            model.save()
+            messages.success(request, "تم التعديل بنجاح")
             return HttpResponseRedirect(reverse("add_degreyprem"))
         except:
             try:
@@ -101,8 +106,13 @@ def add_degreymoyene_save(request):
             messages.error(request, "لا يوجد مؤسسة مسندة لك")
             return HttpResponseRedirect(reverse("add_degreymoyene"))
         try:
-            DegreyMoyenCompany.objects.get(withdegrey=degrys, company=prim)
-            messages.error(request, "موجود بالفعل")
+            model = DegreyMoyenCompany.objects.get(withdegrey=degrys, company=prim, name=degrys.name)
+            model.nomberetud = numetud
+            model.nomberexist = numetudex
+            model.femail = femal
+            model.reatrap = reatrap
+            model.save()
+            messages.success(request, "تم التعديل بنجاح")
             return HttpResponseRedirect(reverse("add_degreymoyene"))
         except:
             try:
@@ -154,8 +164,14 @@ def add_degresecondarye_save(request):
             return HttpResponseRedirect(reverse("add_degresecondarye"))
 
         try:
-            DegreyCompany.objects.get(withdegrey=degrys, company=prim, spesial=spesials)
-            messages.error(request, "موجود بالفعل")
+            model = DegreyCompany.objects.get(withdegrey=degrys, company=prim, spesial=spesials,
+                                                 name=degrys.name)
+            model.nomberetud = numetud
+            model.nomberexist = numetudex
+            model.femail = femal
+            model.reatrap = reatrap
+            model.save()
+            messages.success(request, "تم التعديل المستوى بنجاح")
             return HttpResponseRedirect(reverse("add_degresecondarye"))
         except:
             try:

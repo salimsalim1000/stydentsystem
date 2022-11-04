@@ -358,6 +358,8 @@
 
 
 
+{% if data %}
+
 
 
       <table class="table table-bordered align-content-center" style="text-align:center;">
@@ -393,6 +395,11 @@
 
   </tbody>
       </table>
+
+      {% endif %}
+      {% if mediamoyparnt %}
+
+
  <table class="table table-bordered align-content-center" style="text-align:center;">
                   <thead>
 
@@ -430,8 +437,11 @@
   </tbody>
 </table>
 
+ {% endif %}
+   {% if dataprem %}
 
  <table class="table table-bordered align-content-center" style="text-align:center;">
+
                   <thead>
 
                   </thead>
@@ -467,7 +477,7 @@
 
   </tbody>
 </table>
-
+  {% endif %}
 
            </div>
 
@@ -498,6 +508,8 @@
 
 
 
+
+{% if filemediasec %}
 
 
       <table class="table table-bordered align-content-center" style="text-align:center;">
@@ -531,6 +543,11 @@
 
   </tbody>
       </table>
+
+      {% endif %}
+     {% if filemediamoy %}
+
+
  <table class="table table-bordered align-content-center" style="text-align:center;">
                   <thead>
 
@@ -563,7 +580,7 @@
 
   </tbody>
 </table>
-
+{% endif %}
 
 
 
@@ -599,6 +616,8 @@
 
 
 
+{% if otheractivesec %}
+
 
       <table class="table table-bordered align-content-center" style="text-align:center;">
                   <thead>
@@ -630,6 +649,10 @@
 
   </tbody>
       </table>
+ {% endif %}
+ {% if otheractivemoy %}
+
+
  <table class="table table-bordered align-content-center" style="text-align:center;">
                   <thead>
 
@@ -660,6 +683,8 @@
 
   </tbody>
 </table>
+ {% endif %}
+{% if otheractiveprem %}
 
 
  <table class="table table-bordered align-content-center" style="text-align:center;">
@@ -693,7 +718,9 @@
   </tbody>
 </table>
 
+{% endif %}
 
+{% if otheract %}
 
 
              <table class="table table-bordered align-content-center" style="text-align:center;">
@@ -726,7 +753,7 @@
 
   </tbody>
 </table>
-
+{% endif %}
            </div>
 
             </div>
